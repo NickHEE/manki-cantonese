@@ -384,8 +384,36 @@
     }
 
     .note {
-      padding: 20px;
+      --card: var(--accent);
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
       border-left: 7px solid var(--accent);
+      padding: 20px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .note-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 11%, white);
+      color: var(--accent);
+    }
+
+    .note-icon svg {
+      display: block;
+      width: 38px;
+      height: 38px;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
     }
 
     .note h3,
@@ -406,26 +434,43 @@
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 10px;
       margin-top: 16px;
-      counter-reset: step;
     }
 
     .step {
       display: grid;
-      grid-template-columns: 34px minmax(0, 1fr);
-      gap: 10px;
+      grid-template-rows: auto 1fr;
+      gap: 12px;
       align-items: start;
+      position: relative;
       min-height: 122px;
       border: 1px solid var(--line);
+      border-top: 4px solid var(--accent);
       border-radius: 8px;
-      background: color-mix(in srgb, var(--section) 70%, white);
+      background:
+        linear-gradient(145deg, rgba(255, 116, 31, 0.12) 0%, rgba(255, 250, 244, 0.92) 34%, rgba(255, 255, 255, 1) 76%),
+        var(--panel);
       padding: 14px;
       color: var(--body);
       font-size: 14px;
+      overflow: hidden;
     }
 
-    .step::before {
-      counter-increment: step;
-      content: counter(step);
+    .step:nth-child(1),
+    .step:nth-child(2),
+    .step:nth-child(3),
+    .step:nth-child(4),
+    .step:nth-child(5) {
+      --card: var(--accent);
+    }
+
+    .step-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .step-number {
       display: inline-grid;
       place-items: center;
       width: 28px;
@@ -435,6 +480,39 @@
       color: white;
       font-weight: 800;
       line-height: 1;
+    }
+
+    .step-icon {
+      display: inline-grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--accent) 11%, white);
+      color: var(--accent);
+    }
+
+    .step-icon svg {
+      display: block;
+      width: 34px;
+      height: 34px;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .step h3 {
+      margin: 0 0 8px;
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .step p {
+      margin: 0;
     }
 
     .testimonials {
@@ -486,6 +564,264 @@
       font-size: 14px;
       font-weight: 700;
       color: var(--ink);
+    }
+
+    .path-builder {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .path-selector,
+    .generated-path {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 10px 28px var(--shadow);
+      overflow: hidden;
+    }
+
+    .path-selector {
+      padding: 16px;
+    }
+
+    .selector-title {
+      margin-bottom: 12px;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .path-option {
+      display: grid;
+      grid-template-columns: 14px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      padding: 10px;
+      color: var(--body);
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .path-option + .path-option {
+      margin-top: 6px;
+    }
+
+    .path-option::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--muted) 72%, white);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--muted) 12%, transparent);
+    }
+
+    .path-option strong {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .path-option span span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .stop-count {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .path-option.active {
+      border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+      background:
+        linear-gradient(145deg, color-mix(in srgb, var(--accent) 12%, white), var(--panel) 72%);
+    }
+
+    .path-option.active::before {
+      background: var(--accent);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+    }
+
+    .path-option.active .stop-count {
+      color: color-mix(in srgb, var(--accent) 82%, black);
+    }
+
+    .generated-path {
+      --card: var(--accent);
+    }
+
+    .generated-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+      border-bottom: 1px solid var(--line);
+      padding: 22px;
+    }
+
+    .generated-header h3 {
+      margin: 5px 0 8px;
+      color: var(--ink);
+      font-size: 28px;
+      line-height: 1.05;
+    }
+
+    .generated-header p {
+      max-width: 640px;
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .generated-level {
+      color: color-mix(in srgb, var(--card) 84%, black);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .generated-route-wrap {
+      position: relative;
+      height: 560px;
+      padding: 22px;
+    }
+
+    .generated-route {
+      position: relative;
+      display: grid;
+      grid-auto-rows: max-content;
+      gap: 16px;
+      align-content: start;
+      height: 100%;
+      overflow-y: auto;
+      padding: 4px 10px 4px 8px;
+      scrollbar-color: color-mix(in srgb, var(--card) 55%, white) transparent;
+    }
+
+    .generated-stop {
+      position: relative;
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+    }
+
+    .generated-stop::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      bottom: -80px;
+      left: 20px;
+      z-index: 0;
+      width: 4px;
+      border-radius: 999px;
+      background: var(--card);
+    }
+
+    .generated-stop:last-child::before {
+      display: none;
+    }
+
+    .stop-node {
+      position: relative;
+      z-index: 1;
+      display: inline-grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border: 5px solid var(--panel);
+      border-radius: 50%;
+      background: var(--card);
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--card) 58%, transparent);
+    }
+
+    .stop-link {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .stop-link:hover {
+      color: var(--link);
+      text-decoration: underline;
+      text-underline-offset: 0.16em;
+    }
+
+    .stop-card {
+      display: grid;
+      grid-template-columns: 148px minmax(0, 1fr) 36px;
+      gap: 14px;
+      align-items: center;
+      min-height: 126px;
+      border: 1px solid color-mix(in srgb, var(--card) 18%, var(--line));
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 10px;
+      color: var(--body);
+      line-height: 1.35;
+    }
+
+    .stop-thumb img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 6px;
+      object-fit: cover;
+      background: var(--section);
+    }
+
+    .stop-card h4 {
+      margin: 0 0 6px;
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.18;
+    }
+
+    .stop-card p {
+      margin: 0;
+      color: var(--body);
+      font-size: 13px;
+    }
+
+    .stop-open {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .stop-open:hover,
+    .stop-open:focus-visible {
+      border-color: color-mix(in srgb, var(--accent) 44%, var(--line));
+      color: var(--accent);
+      outline: none;
+    }
+
+    .stop-open svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
     }
 
     .library-level {
@@ -578,7 +914,8 @@
       .theory-grid,
       .testimonials,
       .short-notes,
-      .path-grid {
+      .path-grid,
+      .path-builder {
         grid-template-columns: 1fr;
       }
 
@@ -599,6 +936,18 @@
       .library-item {
         grid-template-columns: 1fr;
         padding: 14px;
+      }
+
+      .note {
+        grid-template-columns: 1fr;
+      }
+
+      .stop-card {
+        grid-template-columns: 1fr;
+      }
+
+      .stop-open {
+        justify-self: start;
       }
 
       .thumb,
@@ -627,7 +976,7 @@
     }
   </style>
 </head>
-<body data-theme="warm" data-mode="light">
+<body data-theme="editorial" data-mode="light">
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">Manki Cantonese Learner Roadmap</div>
@@ -635,7 +984,7 @@
         <label for="themeSelect">Color scheme</label>
         <select id="themeSelect" aria-label="Color scheme">
           <option value="warm">Warm Learning Desk</option>
-          <option value="editorial">Editorial Roadmap</option>
+          <option value="editorial" selected>Editorial Roadmap</option>
           <option value="pop">Cantonese Channel Pop</option>
           <option value="classroom">Soft Classroom</option>
           <option value="contrast">High Contrast Promo</option>
@@ -677,20 +1026,85 @@
       </div>
       <div class="theory-grid">
         <article class="note">
-          <h3>The Natural Approach</h3>
-          <p>This is the spirit of Manki Cantonese: Watch things that are 95% understandable and enjoyable. When we understand a lot while having fun, speaking will emerge and language learning will become sustainable and a life-long thing.</p>
+          <span class="note-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M11 28c7-12 18-15 28-11-1 12-8 20-20 20"/><path d="M12 37c7-11 15-17 27-20"/><path d="M18 20c-3-3-5-5-7-9"/><path d="M19 29c-3-1-6-2-10-2"/></svg>
+          </span>
+          <div>
+            <h3>The Natural Approach</h3>
+            <p>This is the spirit of Manki Cantonese: Watch things that are 95% understandable and enjoyable. When we understand a lot while having fun, speaking will emerge and language learning will become sustainable and a life-long thing.</p>
+          </div>
         </article>
         <article class="note">
-          <h3>How it works</h3>
-          <p>When we understand 95% of what we watch, we will acquire the remaining 5% easily. It's how kids learn their first language and how we acquire new words in our first language.</p>
+          <span class="note-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48"><path d="M10 24c4-7 9-10 14-10s10 3 14 10c-4 7-9 10-14 10s-10-3-14-10z"/><circle cx="24" cy="24" r="4"/><path d="M10 38h28"/><path d="M15 38c3-5 6-8 9-8s6 3 9 8"/></svg>
+          </span>
+          <div>
+            <h3>How it works</h3>
+            <p>When we understand 95% of what we watch, we will acquire the remaining 5% easily. It's how kids learn their first language and how we acquire new words in our first language.</p>
+          </div>
         </article>
       </div>
       <div class="steps" aria-label="How to use this roadmap">
-        <div class="step">Drop your notebook or dictionary. Important words will come back again and again, just like important characters in a series. You will remember them without memorising.</div>
-        <div class="step">Choose a video that seems too easy and quite interesting to you. Don't underestimate those "too easy" videos which are probably the perfect level for you.</div>
-        <div class="step">Focus on what is said (meaning), not on how it is said (form). The paradox of language learning: The more we focus on the form, the slower we learn the form. The more we focus on the meaning, the faster we learn the form.</div>
-        <div class="step">If the video turns out being boring or difficult (you understand less than 95%), just skip and choose another one. There are more 3000 videos on Manki Cantonese.</div>
-        <div class="step">Grab some snack or drink and enjoy. Your sofa might be a good place to start to watch Manki's videos.</div>
+        <article class="step">
+          <div class="step-topline">
+            <span class="step-number">1</span>
+            <span class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M16 12h18v24H16z"/><path d="M20 17h10M20 22h10M20 27h8"/><path d="M12 14l24 22"/></svg>
+            </span>
+          </div>
+          <div>
+            <h3>Put The Dictionary Down</h3>
+            <p>Important words return again and again, like recurring characters in a series. You will remember without memorizing</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="step-topline">
+            <span class="step-number">2</span>
+            <span class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M12 32h24"/><path d="M16 32V20a8 8 0 0 1 16 0v12"/><path d="M19 20h10"/><path d="M22 25h4"/></svg>
+            </span>
+          </div>
+          <div>
+            <h3>Start Easier Than Expected</h3>
+            <p>Pick something almost too easy and genuinely interesting. That is often the sweet spot.</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="step-topline">
+            <span class="step-number">3</span>
+            <span class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M10 24c4-7 9-10 14-10s10 3 14 10c-4 7-9 10-14 10s-10-3-14-10z"/><circle cx="24" cy="24" r="4"/><path d="M34 12l-4 5M38 18l-6 2"/></svg>
+            </span>
+          </div>
+          <div>
+            <h3>Follow The Meaning</h3>
+            <p>Watch for what is happening, not grammar analysis. Meaning pulls the form along. </p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="step-topline">
+            <span class="step-number">4</span>
+            <span class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M14 16h16a6 6 0 0 1 0 12H18"/><path d="M20 22l-6 6 6 6"/><path d="M36 29v8"/><path d="M32 33h8"/></svg>
+            </span>
+          </div>
+          <div>
+            <h3>Skip Freely</h3>
+            <p>If a video is boring or below 95% clear, choose another. There are more than 3000 videos on Manki Cantonese.</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="step-topline">
+            <span class="step-number">5</span>
+            <span class="step-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><path d="M14 28h20v6a6 6 0 0 1-6 6h-8a6 6 0 0 1-6-6z"/><path d="M34 30h3a4 4 0 0 1 0 8h-4"/><path d="M18 10c2 3-1 5 1 8M25 10c2 3-1 5 1 8M32 10c2 3-1 5 1 8"/><path d="M12 40h26"/></svg>
+            </span>
+          </div>
+          <div>
+            <h3>Settle In And Enjoy</h3>
+            <p>Grab a snack or drink. A comfortable sofa counts as study equipment here.</p>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -770,16 +1184,50 @@
 
     <section class="section-block" id="starter-paths">
       <div class="section-heading">
-        <h2>Starter Paths Suggested By The Testimonials</h2>
+        <h2>Suggested Paths</h2>
         <p>These are not rules. They are routes learners have described, organized into a gentler sequence for new viewers.</p>
       </div>
-      <div class="path-grid">
-        <article class="path-card"><h3>Absolute Beginner Path</h3><p>Bear -&gt; Daily Life Skit -&gt; What do you think of? -&gt; Hallo Baby -&gt; What Who Where -&gt; Finger Puppet Skit</p></article>
-        <article class="path-card"><h3>Beginner Path</h3><p>Father and Nun -&gt; Story Dice -&gt; Florence -&gt; Is this seat taken? -&gt; Random Game -&gt; Toem -&gt; Garfield -&gt; Calvin &amp; Hobbes -&gt; Story -&gt; Let's see</p></article>
-        <article class="path-card"><h3>Advanced Beginner Path</h3><p>Good Pizza -&gt; Sims -&gt; Little Nightmares -&gt; Sort the Court -&gt; Stardew Valley -&gt; Roki -&gt; Firewatch -&gt; Storybooks</p></article>
-        <article class="path-card"><h3>Low Intermediate Path</h3><p>Teasing Master Takagi-san -&gt; Good Job</p></article>
-        <article class="path-card"><h3>Intermediate Path</h3><p>Penguin &amp; Me -&gt; Yotsuba -&gt; The Way of the Househusband -&gt; Vlog -&gt; Book Unboxing -&gt; Chibi Maruko Chan -&gt; Witch Hat Atelier -&gt; Cantonese E.T.c. -&gt; The Untitled Goose Game -&gt; Overcook -&gt; Overcook 2 -&gt; Podcast with Momo</p></article>
-        <article class="path-card"><h3>Upper Intermediate Path</h3><p>Akira -&gt; Journey to the West -&gt; Disco Elysium Re</p></article>
+      <div class="path-builder">
+        <aside class="path-selector" aria-label="Choose a suggested path">
+          <div class="selector-title">Choose a starting level</div>
+          <button class="path-option active" type="button" data-path="absolute">
+            <span><strong>Absolute Beginner</strong><span>Gentle story and skit entry point</span></span>
+            <span class="stop-count">6</span>
+          </button>
+          <button class="path-option" type="button" data-path="beginner">
+            <span><strong>Beginner</strong><span>Early range across stories and games</span></span>
+            <span class="stop-count">10</span>
+          </button>
+          <button class="path-option" type="button" data-path="advanced">
+            <span><strong>Advanced Beginner</strong><span>Bridge into longer series</span></span>
+            <span class="stop-count">8</span>
+          </button>
+          <button class="path-option" type="button" data-path="low">
+            <span><strong>Low Intermediate</strong><span>A short next-step route</span></span>
+            <span class="stop-count">2</span>
+          </button>
+          <button class="path-option" type="button" data-path="intermediate">
+            <span><strong>Intermediate</strong><span>Broad library exploration</span></span>
+            <span class="stop-count">12</span>
+          </button>
+          <button class="path-option" type="button" data-path="upper">
+            <span><strong>Upper Intermediate</strong><span>Challenge route</span></span>
+            <span class="stop-count">3</span>
+          </button>
+        </aside>
+
+        <article class="generated-path" id="generatedPath">
+          <div class="generated-header">
+            <div>
+              <div class="generated-level" id="generatedLevel">Gentle Start</div>
+              <h3 id="generatedTitle">Absolute Beginner Path</h3>
+              <p id="generatedDescription">Start with highly supported videos where repetition, visual context, and simple situations do most of the work.</p>
+            </div>
+          </div>
+          <div class="generated-route-wrap">
+            <div class="generated-route" id="generatedRoute"></div>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -963,6 +1411,92 @@
       ["Work with Me", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLS_-MdEqUXumh4RMARlLsnn"]
     ]);
 
+    const generatedPaths = {
+      absolute: {
+        label: "Gentle Start",
+        title: "Absolute Beginner Path",
+        description: "Start with highly supported videos where repetition, visual context, and simple situations do most of the work.",
+        stops: [
+          ["Bear", "Gentle story context with simple scenes and repeatable vocabulary.", "https://i.ytimg.com/vi/fnwcaQ8kMnQ/hqdefault.jpg"],
+          ["Daily Life Skit", "Everyday situations make the language concrete and easy to infer.", "https://i.ytimg.com/vi/lARqcOwYkhQ/hqdefault.jpg"],
+          ["What do you think of?", "A storybook-style stop with clear visual support.", "https://i.ytimg.com/vi/I0am4KKU7Jg/hqdefault.jpg"],
+          ["Hallo Baby", "Short, supported videos that keep the input light and friendly.", "https://i.ytimg.com/vi/WQuRDZKPPtE/hqdefault.jpg"],
+          ["What Who Where", "Practice following basic question words inside understandable scenes.", "https://i.ytimg.com/vi/yQ8j1go33TU/hqdefault.jpg"],
+          ["Finger Puppet Skit", "Simple recurring characters help new words come back naturally.", "https://i.ytimg.com/vi/xptnwX-wk1g/hqdefault.jpg"]
+        ]
+      },
+      beginner: {
+        label: "First Range",
+        title: "Beginner Path",
+        description: "Move from approachable story setups into games, comics, and recurring series that still offer plenty of context.",
+        stops: [
+          ["Father and Nun", "Beginner-friendly character scenes with a clear recurring setup.", "https://i.ytimg.com/vi/rqjVHYYa4CU/hqdefault.jpg"],
+          ["Story Dice", "A playful story format where the visuals help carry the meaning.", "https://i.ytimg.com/vi/GEj1yK5VjDA/hqdefault.jpg"],
+          ["Florence", "A gentle game narrative that gives you emotional and visual context.", "https://i.ytimg.com/vi/99wR2ccyGeU/hqdefault.jpg"],
+          ["Is this seat taken?", "Useful position and situation language inside approachable scenes.", "https://i.ytimg.com/vi/LRsimjDa21U/hqdefault.jpg"],
+          ["Random Game", "A flexible bridge into game-based listening practice.", "https://i.ytimg.com/vi/0dFMOEK00C8/hqdefault.jpg"],
+          ["Toem", "A cozy game route with lots of visible context for guessing meaning.", "https://i.ytimg.com/vi/VC7g-a3LZOo/hqdefault.jpg"],
+          ["Garfield", "Comic-strip humor with recurring characters and familiar situations.", "https://i.ytimg.com/vi/uy970tsWrvo/hqdefault.jpg"],
+          ["Calvin & Hobbes", "Short comic scenes that are good for building confidence.", "https://i.ytimg.com/vi/PvlkjuqjwGQ/hqdefault.jpg"],
+          ["Story", "A broad story stop for more beginner-friendly input.", "https://i.ytimg.com/vi/ySNOeWWoAnc/hqdefault.jpg"],
+          ["Let's see", "A final beginner stop before stretching into harder series.", "https://i.ytimg.com/vi/Y-_ek7FYSZ0/hqdefault.jpg"]
+        ]
+      },
+      advanced: {
+        label: "Bridge",
+        title: "Advanced Beginner Path",
+        description: "Use familiar game and story formats to stretch into longer listening sessions without losing the thread.",
+        stops: [
+          ["Good Pizza", "A game setting with concrete actions and repeated service language.", "https://i.ytimg.com/vi/UvO6jJXhpII/hqdefault.jpg"],
+          ["Sims", "Daily-life vocabulary inside a familiar simulation format.", "https://i.ytimg.com/vi/hVAXOvLKLUI/hqdefault.jpg"],
+          ["Little Nightmares", "A moodier game route that asks for stronger listening stamina.", "https://i.ytimg.com/vi/J_0pxyu8Wn4/hqdefault.jpg"],
+          ["Sort the Court", "Short decisions and repeated structures make it a useful bridge.", "https://i.ytimg.com/vi/h8WtTsrVB7E/hqdefault.jpg"],
+          ["Stardew Valley", "Cozy game routines with lots of visible context.", "https://i.ytimg.com/vi/uAXP-l0q_5A/hqdefault.jpg"],
+          ["Roki", "A story-driven stretch pick for advanced beginners.", "https://i.ytimg.com/vi/kyO6OsFkpNs/hqdefault.jpg"],
+          ["Firewatch", "Longer narrative scenes with stronger conversational demands.", "https://i.ytimg.com/vi/csAI0cWxPuI/hqdefault.jpg"],
+          ["Storybooks", "Return to story format with a broader listening base.", "https://i.ytimg.com/vi/I0am4KKU7Jg/hqdefault.jpg"]
+        ]
+      },
+      low: {
+        label: "Next Stretch",
+        title: "Low Intermediate Path",
+        description: "A compact route for learners ready to test stronger listening stamina and more character-driven content.",
+        stops: [
+          ["Teasing Master Takagi-san", "Character interaction gives you a clear next-step challenge.", "https://i.ytimg.com/vi/17KXs6mY7S4/hqdefault.jpg"],
+          ["Good Job", "A short route into less supported but still playful input.", "https://i.ytimg.com/vi/_Zv6oKtMyeU/hqdefault.jpg"]
+        ]
+      },
+      intermediate: {
+        label: "Deep Library",
+        title: "Intermediate Path",
+        description: "Explore a wider mix of manga, vlogs, games, podcasts, and longer series once the channel feels broadly accessible.",
+        stops: [
+          ["Penguin & Me", "A character-focused entry into intermediate listening.", "https://i.ytimg.com/vi/CxyLgrilpdI/hqdefault.jpg"],
+          ["Yotsuba", "Manga scenes with a stronger but still visual story rhythm.", "https://i.ytimg.com/vi/bZ646apPLNY/hqdefault.jpg"],
+          ["The Way of the Househusband", "A denser comic route for learners ready for more speed and detail.", "https://i.ytimg.com/vi/Gfnk4xCOk-s/hqdefault.jpg"],
+          ["Vlog", "Casual real-life speech and topics broaden your listening range.", "https://i.ytimg.com/vi/FBYy-wjTXW4/hqdefault.jpg"],
+          ["Book Unboxing", "A focused topic route with natural descriptive language.", "https://i.ytimg.com/vi/Cwymg0rSOn0/hqdefault.jpg"],
+          ["Chibi Maruko Chan", "A classic story series with richer dialogue and recurring characters.", "https://i.ytimg.com/vi/Eoj2zEBQOaM/hqdefault.jpg"],
+          ["Witch Hat Atelier", "A fantasy story stretch with more demanding vocabulary.", "https://i.ytimg.com/vi/zk-OpOShBDU/hqdefault.jpg"],
+          ["Cantonese E.T.c.", "A topical route for broader listening practice.", "https://i.ytimg.com/vi/vosHP6cCXyo/hqdefault.jpg"],
+          ["The Untitled Goose Game", "Game action and humor make the challenge more grounded.", "https://i.ytimg.com/vi/U137aEnWOoo/hqdefault.jpg"],
+          ["Overcook", "Fast cooperative game context with lots happening on screen.", "https://i.ytimg.com/vi/jMioeq157LY/hqdefault.jpg"],
+          ["Overcook 2", "A busier sequel route for stamina and fast reactions.", "https://i.ytimg.com/vi/SA15sLENfLI/hqdefault.jpg"],
+          ["Podcast with Momo", "A more audio-forward stop for stronger comprehension.", "https://i.ytimg.com/vi/5Y5em2t0SWQ/hqdefault.jpg"]
+        ]
+      },
+      upper: {
+        label: "Challenge",
+        title: "Upper Intermediate Path",
+        description: "A smaller set of harder picks for learners who want denser stories and less hand-holding.",
+        stops: [
+          ["Akira", "Dense story material for learners ready to work with less support.", "https://i.ytimg.com/vi/9kW4z9IQWqM/hqdefault.jpg"],
+          ["Journey to the West", "Classic story content with a bigger vocabulary load.", "https://i.ytimg.com/vi/sKOIBqIqUTs/hqdefault.jpg"],
+          ["Disco Elysium Re", "A demanding narrative game route for upper-intermediate stamina.", "https://i.ytimg.com/vi/a8t4vaCHFFQ/hqdefault.jpg"]
+        ]
+      }
+    };
+
     function escapeHtml(value) {
       return value.replace(/[&<>"']/g, character => ({
         "&": "&amp;",
@@ -1001,7 +1535,48 @@
       return html;
     }
 
-    document.querySelectorAll(".path, .path-card p").forEach(element => {
+    const generatedLevel = document.getElementById("generatedLevel");
+    const generatedTitle = document.getElementById("generatedTitle");
+    const generatedDescription = document.getElementById("generatedDescription");
+    const generatedRoute = document.getElementById("generatedRoute");
+
+    function renderGeneratedPath(key) {
+      const path = generatedPaths[key];
+      generatedLevel.textContent = path.label;
+      generatedTitle.textContent = path.title;
+      generatedDescription.textContent = path.description;
+      generatedRoute.innerHTML = path.stops.map(([title, description, thumbnail], index) => {
+        const url = linkTargets.get(title) || "#";
+        return `
+          <div class="generated-stop">
+            <span class="stop-node">${index + 1}</span>
+            <div class="stop-card">
+              <a class="stop-thumb" href="${escapeHtml(url)}"><img src="${escapeHtml(thumbnail)}" alt=""></a>
+              <div>
+                <h4><a class="stop-link" href="${escapeHtml(url)}">${escapeHtml(title)}</a></h4>
+                <p>${escapeHtml(description)}</p>
+              </div>
+              <a class="stop-open" href="${escapeHtml(url)}" aria-label="Open ${escapeHtml(title)} playlist">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M10 7h7v7"/></svg>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join("");
+      generatedRoute.scrollTop = 0;
+    }
+
+    document.querySelectorAll(".path-option").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".path-option").forEach(option => option.classList.remove("active"));
+        button.classList.add("active");
+        renderGeneratedPath(button.dataset.path);
+      });
+    });
+
+    renderGeneratedPath("absolute");
+
+    document.querySelectorAll(".path").forEach(element => {
       element.innerHTML = linkifyText(element.textContent);
     });
 
