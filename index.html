@@ -1883,7 +1883,7 @@
         const thumbnailUrl = isAvailable ? reliableThumbnailUrl(playlist) : "";
         const description = isAvailable && playlist.description
           ? playlist.description
-          : "No playlist description available in the catalog.";
+          : "";
         const meta = isAvailable
           ? formatVideoCount(playlist.video_count)
           : "Playlist not found in catalog";
