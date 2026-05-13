@@ -91,8 +91,17 @@
     }
 
     [data-mode="dark"][data-theme="editorial"] {
-      --secondary: #77d4d2;
-      --link: #8bd2ef;
+      --accent: #ff8a3d;
+      --ink: #fff3e4;
+      --paper: #151719;
+      --section: #243842;
+      --secondary: #8ddbd2;
+      --muted: #bdc8c8;
+      --body: #ece7dd;
+      --link: #9ad8ef;
+      --panel: #202326;
+      --line: rgba(255, 243, 228, 0.16);
+      --shadow: rgba(0, 0, 0, 0.42);
     }
 
     [data-mode="dark"][data-theme="pop"] {
@@ -161,27 +170,87 @@
       white-space: nowrap;
     }
 
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
     .controls {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 14px;
+    }
+
+    .contact-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .contact-link {
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--panel) 82%, transparent);
+      color: var(--muted);
+      text-decoration: none;
+      transition:
+        border-color 160ms ease,
+        background 160ms ease,
+        color 160ms ease,
+        transform 160ms ease;
+    }
+
+    .contact-link:hover,
+    .contact-link:focus-visible {
+      border-color: color-mix(in srgb, var(--accent) 54%, var(--line));
+      background: color-mix(in srgb, var(--accent) 10%, var(--panel));
+      color: var(--ink);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .contact-link svg {
+      display: block;
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.9;
+    }
+
+    .contact-link.youtube svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .contact-link.kofi svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    [data-mode="dark"] .contact-link {
+      background: color-mix(in srgb, var(--panel) 88%, black);
+      color: color-mix(in srgb, var(--muted) 86%, var(--ink));
+    }
+
+    [data-mode="dark"] .contact-link:hover,
+    [data-mode="dark"] .contact-link:focus-visible {
+      background: color-mix(in srgb, var(--accent) 13%, var(--panel));
+      color: var(--ink);
     }
 
     label {
       color: var(--muted);
       font-size: 13px;
       font-weight: 700;
-    }
-
-    select {
-      max-width: 220px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--panel);
-      color: var(--ink);
-      font: inherit;
-      font-size: 13px;
-      padding: 8px 10px;
     }
 
     .mode-toggle {
@@ -231,6 +300,10 @@
 
     .switch input:checked + .slider {
       background: var(--ink);
+    }
+
+    [data-mode="dark"] .switch input:checked + .slider {
+      background: color-mix(in srgb, var(--section) 72%, black);
     }
 
     .switch input:checked + .slider::before {
@@ -334,7 +407,19 @@
       padding: 9px 13px;
     }
 
+    [data-mode="dark"] .button {
+      border-color: color-mix(in srgb, var(--accent) 68%, var(--line));
+      background: var(--accent);
+      color: var(--paper);
+    }
+
     .button.secondary {
+      background: var(--panel);
+      color: var(--ink);
+    }
+
+    [data-mode="dark"] .button.secondary {
+      border-color: var(--line);
       background: var(--panel);
       color: var(--ink);
     }
@@ -455,6 +540,12 @@
       overflow: hidden;
     }
 
+    [data-mode="dark"] .step {
+      background:
+        linear-gradient(145deg, rgba(255, 138, 61, 0.18) 0%, rgba(36, 56, 66, 0.58) 38%, var(--panel) 78%),
+        var(--panel);
+    }
+
     .step:nth-child(1),
     .step:nth-child(2),
     .step:nth-child(3),
@@ -490,6 +581,11 @@
       border-radius: 8px;
       background: color-mix(in srgb, var(--accent) 11%, white);
       color: var(--accent);
+    }
+
+    [data-mode="dark"] .note-icon,
+    [data-mode="dark"] .step-icon {
+      background: color-mix(in srgb, var(--accent) 14%, var(--paper));
     }
 
     .step-icon svg {
@@ -622,6 +718,11 @@
       box-shadow: 0 0 0 4px color-mix(in srgb, var(--muted) 12%, transparent);
     }
 
+    [data-mode="dark"] .path-option::before {
+      background: color-mix(in srgb, var(--muted) 48%, var(--paper));
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--muted) 13%, transparent);
+    }
+
     .path-option strong {
       display: block;
       color: var(--ink);
@@ -648,6 +749,12 @@
         linear-gradient(145deg, color-mix(in srgb, var(--accent) 12%, white), var(--panel) 72%);
     }
 
+    [data-mode="dark"] .path-option.active {
+      border-color: color-mix(in srgb, var(--accent) 58%, var(--line));
+      background:
+        linear-gradient(145deg, color-mix(in srgb, var(--accent) 20%, var(--paper)), color-mix(in srgb, var(--section) 36%, var(--panel)) 68%);
+    }
+
     .path-option.active::before {
       background: var(--accent);
       box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
@@ -655,6 +762,10 @@
 
     .path-option.active .stop-count {
       color: color-mix(in srgb, var(--accent) 82%, black);
+    }
+
+    [data-mode="dark"] .path-option.active .stop-count {
+      color: color-mix(in srgb, var(--accent) 82%, white);
     }
 
     .generated-path {
@@ -827,16 +938,34 @@
       height: 34px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: white;
+      background: color-mix(in srgb, var(--panel) 82%, white);
       color: var(--muted);
       text-decoration: none;
+      transition:
+        border-color 160ms ease,
+        background 160ms ease,
+        color 160ms ease;
     }
 
     .stop-open:hover,
     .stop-open:focus-visible {
       border-color: color-mix(in srgb, var(--accent) 44%, var(--line));
+      background: color-mix(in srgb, var(--accent) 10%, var(--panel));
       color: var(--accent);
       outline: none;
+    }
+
+    [data-mode="dark"] .stop-open {
+      border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+      background: var(--section);
+      color: var(--ink);
+    }
+
+    [data-mode="dark"] .stop-open:hover,
+    [data-mode="dark"] .stop-open:focus-visible {
+      border-color: color-mix(in srgb, var(--accent) 64%, var(--line));
+      background: color-mix(in srgb, var(--accent) 22%, var(--section));
+      color: var(--accent);
     }
 
     .stop-open svg {
@@ -940,6 +1069,39 @@
       text-align: center;
     }
 
+    .closing-formula {
+      margin: 60px 20px 40px;
+      text-align: center;
+    }
+
+    .closing-formula-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .closing-line {
+      color: var(--ink);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(30px, 5vw, 46px);
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.2;
+    }
+
+    .closing-result {
+      margin-top: 6px;
+      color: color-mix(in srgb, var(--accent) 86%, black);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(32px, 5.5vw, 48px);
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.2;
+    }
+
+    [data-mode="dark"] .closing-result {
+      color: var(--accent);
+    }
+
     .catalog-state {
       border: 1px dashed var(--line);
       border-radius: 8px;
@@ -951,19 +1113,31 @@
     }
 
     @media (max-width: 850px) {
-      .topbar-inner,
-      .controls {
+      .topbar-inner {
         align-items: stretch;
         flex-direction: column;
+      }
+
+      .brand-group,
+      .controls {
+        align-items: flex-start;
+      }
+
+      .brand-group {
+        flex-direction: column;
+        gap: 10px;
       }
 
       .brand {
         white-space: normal;
       }
 
-      select {
-        max-width: none;
-        width: 100%;
+      .contact-links {
+        justify-content: flex-start;
+      }
+
+      .mode-toggle {
+        justify-content: flex-start;
       }
 
       .hero,
@@ -1036,16 +1210,38 @@
 <body data-theme="editorial" data-mode="light">
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand">Manki Cantonese Learner Roadmap</div>
+      <div class="brand-group">
+        <div class="brand">Manki Cantonese Learner Roadmap</div>
+        <nav class="contact-links" aria-label="Manki links">
+          <a class="contact-link youtube" href="http://www.youtube.com/@mankicantonese1066" target="_blank" rel="noopener noreferrer" aria-label="Manki Cantonese on YouTube" title="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="12" rx="4"></rect>
+              <path d="m10 9 5 3-5 3Z"></path>
+            </svg>
+          </a>
+          <a class="contact-link instagram" href="https://instagram.com/honmanki" target="_blank" rel="noopener noreferrer" aria-label="Manki on Instagram" title="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="5" y="5" width="14" height="14" rx="4"></rect>
+              <circle cx="12" cy="12" r="3.2"></circle>
+              <path d="M16.6 7.4h.01"></path>
+            </svg>
+          </a>
+          <a class="contact-link email" href="mailto:manki.hon@gmail.com" aria-label="Email Manki" title="Email">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="6" width="16" height="12" rx="2"></rect>
+              <path d="m5 8 7 5 7-5"></path>
+            </svg>
+          </a>
+          <a class="contact-link kofi" href="https://ko-fi.com/mankicantonese" target="_blank" rel="noopener noreferrer" aria-label="Support Manki Cantonese on Ko-fi" title="Ko-fi">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 8h10v5a5 5 0 0 1-5 5H8a3 3 0 0 1-3-3Z"></path>
+              <path d="M15 9h2a2.5 2.5 0 0 1 0 5h-2"></path>
+              <path d="M8.4 11.1c.7-.8 2-.4 2.2.6.5-.8 1.8-.7 2.2.2.5 1.2-1 2.3-2.2 3.1-1.3-.8-2.8-1.9-2.2-3.9Z"></path>
+            </svg>
+          </a>
+        </nav>
+      </div>
       <div class="controls">
-        <label for="themeSelect">Color scheme</label>
-        <select id="themeSelect" aria-label="Color scheme">
-          <option value="warm">Warm Learning Desk</option>
-          <option value="editorial" selected>Editorial Roadmap</option>
-          <option value="pop">Cantonese Channel Pop</option>
-          <option value="classroom">Soft Classroom</option>
-          <option value="contrast">High Contrast Promo</option>
-        </select>
         <label class="mode-toggle" for="modeToggle">
           Light
           <span class="switch">
@@ -1296,21 +1492,16 @@
       <div id="libraryMount"></div>
     </section>
 
-<div style="text-align: center; margin: 60px 20px 40px 20px;">
-  <div style="max-width: 900px; margin: 0 auto;">
-    
-    <!-- 第一行：全部同一行 -->
-    <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: clamp(30px, 5vw, 46px); font-weight: 800; color: #0a0a0a; letter-spacing: -0.01em; line-height: 1.2;">
-      Understand 95% + Enjoy + A LOT
+    <div class="closing-formula">
+      <div class="closing-formula-inner">
+        <div class="closing-line">
+          Understand 95% + Enjoy + A LOT
+        </div>
+        <div class="closing-result">
+          = Natural Approach
+        </div>
+      </div>
     </div>
-    
-    <!-- 第二行：等號公式 -->
-    <div style="font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif; font-size: clamp(32px, 5.5vw, 48px); font-weight: 800; color: #e05a1a; letter-spacing: -0.01em; line-height: 1.2; margin-top: 6px;">
-      = Natural Approach
-    </div>
-    
-  </div>
-</div>
     
     <p class="source">Community testimonial source: <a href="https://www.youtube.com/post/UgkxyHswgOF12stEDF6iQMOrNd1t-f0uVvNa">YouTube community post</a>. Channel: <a href="https://www.youtube.com/channel/UC9xosUh_LZUdQv-kw38RehA">Manki Cantonese</a>.</p>
   </main>
@@ -1737,22 +1928,14 @@
 
     initializeCatalogContent();
 
-    const selector = document.getElementById("themeSelect");
     const modeToggle = document.getElementById("modeToggle");
-    const savedTheme = localStorage.getItem("manki-roadmap-theme");
-    if (savedTheme) {
-      document.body.dataset.theme = savedTheme;
-      selector.value = savedTheme;
-    }
+    document.body.dataset.theme = "editorial";
+    localStorage.removeItem("manki-roadmap-theme");
     const savedMode = localStorage.getItem("manki-roadmap-mode");
     if (savedMode) {
       document.body.dataset.mode = savedMode;
       modeToggle.checked = savedMode === "dark";
     }
-    selector.addEventListener("change", event => {
-      document.body.dataset.theme = event.target.value;
-      localStorage.setItem("manki-roadmap-theme", event.target.value);
-    });
     modeToggle.addEventListener("change", event => {
       const mode = event.target.checked ? "dark" : "light";
       document.body.dataset.mode = mode;
