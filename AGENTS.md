@@ -37,6 +37,15 @@ Note: RSS only returns recent uploads, not the full historical channel library.
 
 ### Playlists
 
+Preferred method: use `manki_youtube_catalog.py` with the official YouTube Data API when `YOUTUBE_API_KEY` is available. It writes:
+
+```text
+generated/manki-catalog.json
+generated/manki-catalog-snippet.js
+```
+
+`index.html` now loads `generated/manki-catalog.json` at runtime and uses `playlists` as the source of truth for channel-related UI. The scraper below is still useful as a fallback when the official API is unavailable.
+
 Use the canonical playlist tab:
 
 ```text
@@ -137,32 +146,12 @@ When a testimonial references channel content:
 4. Categorize referenced content by the difficulty in the playlist title where possible:
    - `Absolute Beginner`
    - `Beginner`
+   - `Advanced Beginner`
    - `Low Intermediate`
    - `Intermediate`
-5. If the difficulty is not inferable from the content title or playlist title, place it in a `To Sort Later` section.
-
-## Google Docs Target
-
-The original draft was created in Google Docs. Keep it as a useful editable/reference draft, but the current shareable artifact is the HTML site described below. Google Drive access was confirmed for:
-
-```text
-nick.huttemann@gmail.com
-```
-
-Suggested document structure:
-
-- Flashy but professional roadmap title and preamble
-- Testimonials / progression paths
-- Referenced content tables grouped by difficulty
-- To Sort Later section for content whose level is unclear
-
-For the content table, include:
-
-- Thumbnail image
-- Content title with hyperlink
-- QR code using the same URL
-
-Google Docs supports inserted images, hyperlinks, and tables. QR codes can be generated as image URLs or local image files, then inserted into table cells.
+   - `Upper Intermediate`
+   - `Advanced`
+5. If the difficulty is not inferable from the content title, playlist title, or reviewed video-title evidence, place it in a `Misc` section.
 
 ## Current HTML / GitHub Pages Target
 
@@ -188,8 +177,22 @@ The user preferred the HTML styling over the Google Doc. Continue new visual/lay
 - The first-page hero card includes a circular portrait image using:
   - `object-fit: cover`
   - `object-position: center 34%`
-- `Path:` summary boxes and starter-path cards are automatically linkified by the `linkTargets` map in the inline script.
-- The content library is generated from the inline `library` array in the script.
+- `Path:` summary boxes and starter-path cards are automatically linkified from the generated catalog plus a small alias map in the inline script.
+- The Suggested Paths cards keep curated route order, but resolve URLs, thumbnails, video counts, and descriptions from `generated/manki-catalog.json`.
+- The content library is generated from `catalog.playlists`, grouped by level.
+- Level aggregate playlists are not shown as normal cards. Instead, the level heading links to the aggregate playlist when one exists:
+  - `Advanced Beginner` links to `Beginner+`
+  - `Upper Intermediate` links to `Intermediate+`
+  - `Misc` is unlinked because it has no aggregate playlist.
+- Current library level order:
+  - `Absolute Beginner`
+  - `Beginner`
+  - `Advanced Beginner`
+  - `Low Intermediate`
+  - `Intermediate`
+  - `Upper Intermediate`
+  - `Advanced`
+  - `Misc`
 - QR codes use QuickChart URLs:
 
 ```text
@@ -201,13 +204,13 @@ https://quickchart.io/qr?size=360&margin=1&text=<encoded-url>
 A local preview server may be running at:
 
 ```text
-http://127.0.0.1:8765/manki-cantonese-roadmap.html
+http://127.0.0.1:8765/index.html
 ```
 
 If Python `Start-Process` fails on this Windows machine because of a `Path/PATH` environment issue, use the persistent Node runtime server approach instead. A server was previously started from the project directory with Node's `http` module and served files from:
 
 ```text
-C:\Users\nickh\Documents\New project
+C:\CodexProjects\manki-cantonese-roadmap
 ```
 
 The browser may block automated `file://` navigation, so prefer `localhost` / `127.0.0.1` for browser preview checks.
@@ -239,17 +242,17 @@ The local git remote is HTTPS:
 origin https://github.com/NickHEE/manki-cantonese.git
 ```
 
-GitHub authentication was set up through Git Credential Manager. Normal `git push` should now work from this repo. If git push fails again, ask the user to refresh GitHub auth rather than switching to SSH by default; SSH was attempted and failed due to no configured GitHub public key.
-
 Only publish files needed for the site unless the user asks otherwise:
 
 - `.gitignore`
 - `index.html`
-- optionally `youtube-thumbnail-XEpFiMyknnM.jpg` if the image is no longer embedded
+- `generated/manki-catalog.json`
 
 Keep project-only notes and drafts local unless requested:
 
 - `AGENTS.md`
 - `color-scheme-preview.html`
 - `manki-cantonese-roadmap.html`
+- `generated/manki-catalog-snippet.js`
+- `manki_youtube_catalog.py`
 - `preview-server.*.log`

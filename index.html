@@ -773,13 +773,20 @@
       line-height: 1.35;
     }
 
+    .stop-thumb {
+      display: block;
+      width: 100%;
+      height: 83px;
+      border-radius: 6px;
+      background: var(--section);
+      overflow: hidden;
+    }
+
     .stop-thumb img {
       display: block;
       width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: 6px;
+      height: 100%;
       object-fit: cover;
-      background: var(--section);
     }
 
     .stop-card h4 {
@@ -793,6 +800,24 @@
       margin: 0;
       color: var(--body);
       font-size: 13px;
+    }
+
+    .stop-meta,
+    .item-meta {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+
+    .stop-meta {
+      margin-bottom: 5px;
+    }
+
+    .generated-stop.unavailable .stop-card {
+      border-style: dashed;
+      opacity: 0.72;
     }
 
     .stop-open {
@@ -837,6 +862,17 @@
       font-size: 22px;
     }
 
+    .level-title a {
+      color: inherit;
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.18em;
+    }
+
+    .level-title a:hover,
+    .level-title a:focus-visible {
+      color: var(--link);
+    }
+
     .level-title::before {
       content: "";
       width: 12px;
@@ -847,7 +883,7 @@
 
     .library-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 370px));
       gap: 12px;
     }
 
@@ -861,6 +897,12 @@
       padding: 8px;
     }
 
+    .item-copy {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+
     .thumb {
       display: block;
       width: 124px;
@@ -870,11 +912,16 @@
       background: var(--section);
     }
 
+    .thumb-placeholder {
+      display: block;
+      border: 1px dashed var(--line);
+    }
+
     .item-title {
       color: var(--ink);
       font-size: 15px;
       line-height: 1.25;
-      text-align: center;
+      text-align: left;
     }
 
     .qr {
@@ -891,6 +938,16 @@
       color: var(--muted);
       font-size: 13px;
       text-align: center;
+    }
+
+    .catalog-state {
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--section) 48%, transparent);
+      padding: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
     }
 
     @media (max-width: 850px) {
@@ -1234,7 +1291,7 @@
     <section class="section-block" id="library">
       <div class="section-heading">
         <h2>Referenced Content Library</h2>
-        <p>Click a title or scan a QR code to open the playlist or starter video. Playlist links are preferred where available.</p>
+        <p>Click a title or scan a QR code to open a playlist from the generated channel catalog.</p>
       </div>
       <div id="libraryMount"></div>
     </section>
@@ -1243,173 +1300,52 @@
   </main>
 
   <script>
-    const library = [
-      {
-        level: "Absolute Beginner",
-        items: [
-          ["Bear", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQNSdCv-gFyurpu2COj12Ks", "https://i.ytimg.com/vi/fnwcaQ8kMnQ/hqdefault.jpg"],
-          ["Daily Life Skit", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLR2zr221k2cJH9mSAPUn3Wo", "https://i.ytimg.com/vi/lARqcOwYkhQ/hqdefault.jpg"],
-          ["Finger Puppet Skit", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRk1YlUH3BFWxSLULSmK4Xb", "https://i.ytimg.com/vi/xptnwX-wk1g/hqdefault.jpg"],
-          ["Hallo Baby", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRA-1ITNoouLcgYs3h7WENn", "https://i.ytimg.com/vi/WQuRDZKPPtE/hqdefault.jpg"],
-          ["Learn With Me", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLT0jBX4jfOFY-lKiOE0eH9s", "https://i.ytimg.com/vi/gt4A3SM4Yqg/hqdefault.jpg"],
-          ["Storybook: What do you think of?", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRBLGp1Kc4R-ESRdDcSebQu", "https://i.ytimg.com/vi/I0am4KKU7Jg/hqdefault.jpg"],
-          ["Storybooks", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRjSIEgjKstatSeg_JhAFl_", "https://i.ytimg.com/vi/zRyZl6xYTyo/hqdefault.jpg"],
-          ["What Who Where", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTdpm08caWiTcnRdpNyiiy1", "https://i.ytimg.com/vi/yQ8j1go33TU/hqdefault.jpg"]
-        ]
-      },
-      {
-        level: "Beginner",
-        items: [
-          ["Calvin & Hobbes", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRv8e8gADf7N-HIm54ps1fm", "https://i.ytimg.com/vi/PvlkjuqjwGQ/hqdefault.jpg"],
-          ["Finger Puppet Skit", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSVzSGdt-6KK9oiJzhS7nWh", "https://i.ytimg.com/vi/LXlL1kH8efs/hqdefault.jpg"],
-          ["Miss & Mr.", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQKvMRR4yqy_4nCJREFsybv", "https://i.ytimg.com/vi/8uVXYZNDNeA/hqdefault.jpg"],
-          ["Random Game", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSOXc8rIpg7U0rZn0tmHYdn", "https://i.ytimg.com/vi/0dFMOEK00C8/hqdefault.jpg"],
-          ["Story", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQH1Vh78-Yt9cKYiQYBjOZY", "https://i.ytimg.com/vi/ySNOeWWoAnc/hqdefault.jpg"],
-          ["Story Dice", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRjy4MVpu2iJrgoOZbJZPGe", "https://i.ytimg.com/vi/GEj1yK5VjDA/hqdefault.jpg"],
-          ["Let's see", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTYcFpQ7GV2ycIxDj1xUYQp", "https://i.ytimg.com/vi/Y-_ek7FYSZ0/hqdefault.jpg"],
-          ["Is this seat taken?", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRz4cjpK04QOFM6WuNkWg95", "https://i.ytimg.com/vi/LRsimjDa21U/hqdefault.jpg"],
-          ["Toem", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQuixWgVXeT9pT2SqJqKuTR", "https://i.ytimg.com/vi/VC7g-a3LZOo/hqdefault.jpg"],
-          ["Florence", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRCjsXjqzmpoHzSjcMx6Vl-", "https://i.ytimg.com/vi/99wR2ccyGeU/hqdefault.jpg"],
-          ["Father and Nun", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSmRZZGLtSEDQmkLbrG_lME", "https://i.ytimg.com/vi/rqjVHYYa4CU/hqdefault.jpg"],
-          ["Garfield", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQbjX5WNb-rumUsJjx0nCF8", "https://i.ytimg.com/vi/uy970tsWrvo/hqdefault.jpg"],
-          ["Stardew Valley", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRjGVuAYm3IlslmbHenuvro", "https://i.ytimg.com/vi/uAXP-l0q_5A/hqdefault.jpg"]
-        ]
-      },
-      {
-        level: "Advanced Beginner",
-        items: [
-          ["Firewatch", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSmok4kIQ45F-22MUEBa5rA", "https://i.ytimg.com/vi/csAI0cWxPuI/hqdefault.jpg"],
-          ["Good Pizza", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQB7JKAuo0o7SNFayVT9uD1", "https://i.ytimg.com/vi/UvO6jJXhpII/hqdefault.jpg"],
-          ["Sort the Court", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQTIIJuHzQrQCOI0VGVvoRe", "https://i.ytimg.com/vi/h8WtTsrVB7E/hqdefault.jpg"],
-          ["The Sims 4", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSFzeBnz4qpxL3UuHmZtMeF", "https://i.ytimg.com/vi/hVAXOvLKLUI/hqdefault.jpg"],
-          ["Little Nightmares", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSJSfJossZ9jODjlzk7bRhJ", "https://i.ytimg.com/vi/J_0pxyu8Wn4/hqdefault.jpg"],
-          ["Roki", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLR7FTXM9sVoJW7rl_9DhYn_", "https://i.ytimg.com/vi/kyO6OsFkpNs/hqdefault.jpg"]
-        ]
-      },
-      {
-        level: "Low Intermediate",
-        items: [
-          ["Choko and Boko", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQWHtnAzLh0QDIAfepKa2im", "https://i.ytimg.com/vi/a7xtYfgHAv4/hqdefault.jpg"],
-          ["Good Job", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRyX0OSJZqRnpvcKKYlJCpZ", "https://i.ytimg.com/vi/_Zv6oKtMyeU/hqdefault.jpg"],
-          ["Teasing Master Takagi-san", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTvFslgD4LJvVjxyKqz2nRQ", "https://i.ytimg.com/vi/17KXs6mY7S4/hqdefault.jpg"]
-        ]
-      },
-      {
-        level: "Intermediate",
-        items: [
-          ["2026 Hong Kong", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRjQDYYf8Tb2ygKrmFJH5WS", "https://i.ytimg.com/vi/AiNBs3gq4Hw/hqdefault.jpg"],
-          ["Berlin Nightlife", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLT1ZRQT9k3MVVzEf1jg7fGE", "https://i.ytimg.com/vi/ciZtF7MUDks/hqdefault.jpg"],
-          ["Board Game", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRlHlzXDeUvgDOHUrg9SgJH", "https://i.ytimg.com/vi/72psFApgoEQ/hqdefault.jpg"],
-          ["Chibi Maruko Chan", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSUHbHgxeUtEfFPb4cMjE9n", "https://i.ytimg.com/vi/Eoj2zEBQOaM/hqdefault.jpg"],
-          ["Driving Quiz", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQ6_OHUO2wPYOlN27JwkeaW", "https://i.ytimg.com/vi/JW5qbiUOpic/hqdefault.jpg"],
-          ["E.T.c.", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLT93yKhEQO6DH51_EAL12A_", "https://i.ytimg.com/vi/vosHP6cCXyo/hqdefault.jpg"],
-          ["Book Unboxing", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSKJAwgdPPwXzSYiLQBYS1C", "https://i.ytimg.com/vi/Cwymg0rSOn0/hqdefault.jpg"],
-          ["Mandarin LOL", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRZ7kE18ZWog6GpHlp2sZQF", "https://i.ytimg.com/vi/rp2xHaXS6fs/hqdefault.jpg"],
-          ["Penguin & Me", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLT0BWC3_cXzu1Ea3TAiYYuo", "https://i.ytimg.com/vi/CxyLgrilpdI/hqdefault.jpg"],
-          ["Reaction + Dub", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLS3TZxUALc-QNwHIJ_1NXZ4", "https://i.ytimg.com/vi/zNtf0O_JdhM/hqdefault.jpg"],
-          ["Undertale", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQL2QSaPjBwiUbOtQvB7svD", "https://i.ytimg.com/vi/cVGeTAtwyjY/hqdefault.jpg"],
-          ["Witch Hat Atelier", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTyzvtWbj3W5GaVevPB1cNI", "https://i.ytimg.com/vi/zk-OpOShBDU/hqdefault.jpg"],
-          ["The Way of the Househusband", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSE-Tnf4RHymbpVJLren5JJ", "https://i.ytimg.com/vi/Gfnk4xCOk-s/hqdefault.jpg"],
-          ["The Untitled Goose Game", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQ59PO0So4g9IVYhhmswun3", "https://i.ytimg.com/vi/U137aEnWOoo/hqdefault.jpg"],
-          ["Overcooked 2", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQ6Lo72_2zZUMMlpYbD0QJI", "https://i.ytimg.com/vi/SA15sLENfLI/hqdefault.jpg"],
-          ["Podcast with Momo", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTJjPzUGrmsyg1koE7RvRwo", "https://i.ytimg.com/vi/5Y5em2t0SWQ/hqdefault.jpg"],
-          ["Vlog", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSAXc6T65AnqZ_cJZLRy6Nd", "https://i.ytimg.com/vi/FBYy-wjTXW4/hqdefault.jpg"],
-          ["Yotsuba", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLR46dYKOAE5ptPEcqrX9AUI", "https://i.ytimg.com/vi/bZ646apPLNY/hqdefault.jpg"],
-          ["Overcooked", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQBQvSHm_eZtFBTCCIAT4JW", "https://i.ytimg.com/vi/jMioeq157LY/hqdefault.jpg"],
-          ["Work with Me", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLS_-MdEqUXumh4RMARlLsnn", "https://i.ytimg.com/vi/UBwkF137U6M/hqdefault.jpg"],
-          ["Interview with Tom", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTu_8shPdlF7VrtZg2ueZ7b", "https://i.ytimg.com/vi/Hp3_3WbpkN4/hqdefault.jpg"],
-          ["Interview with Danny", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQM_v0uv6rzRS7Eiulke58p", "https://i.ytimg.com/vi/hLsOSXdz38o/hqdefault.jpg"],
-          ["How To Success on YouTube", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQC1-YvgqJ7Yvaiogob6o0U", "https://i.ytimg.com/vi/2bIiX5y0Tqc/hqdefault.jpg"],
-          ["Q&A", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSrTteKoxz0-lNLIYPld-hc", "https://i.ytimg.com/vi/SQ2ey0L46Sg/hqdefault.jpg"]
-        ]
-      },
-      {
-        level: "Upper Intermediate",
-        items: [
-          ["Akira", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQNiLxV09ZElEscTzdDTW1i", "https://i.ytimg.com/vi/9kW4z9IQWqM/hqdefault.jpg"],
-          ["Journey to the West", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTHLhPS7ZD_l5qjztmWft0o", "https://i.ytimg.com/vi/sKOIBqIqUTs/hqdefault.jpg"],
-          ["Disco Elysium Re", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSQO8DemDxrO7y1K-p7OWAj", "https://i.ytimg.com/vi/a8t4vaCHFFQ/hqdefault.jpg"]
-        ]
-      }
+    const CATALOG_URL = "generated/manki-catalog.json";
+    const LEVEL_ORDER = [
+      "Absolute Beginner",
+      "Beginner",
+      "Advanced Beginner",
+      "Low Intermediate",
+      "Intermediate",
+      "Upper Intermediate",
+      "Advanced",
+      "Misc"
     ];
+    const MANUAL_ALIASES = [
+      ["Storybook", "Storybooks"],
+      ["Story", "Story (Beginner&Beginner+)"],
+      ["Sims", "The Sims 4"],
+      ["Sims 4", "The Sims 4"],
+      ["Good Pizza", "Good Pizza, Great Pizza"],
+      ["Good Job", "Good Job!"],
+      ["Househusband", "The Way of the Househusband"],
+      ["The Way of the Househusband", "The Way of the Househusband"],
+      ["Little Nightmares", "Little Nightmares"],
+      ["Roki", "Roki"],
+      ["Sort the Court", "Sort the Court!"],
+      ["Takagi-san", "Teasing Master Takagi-san"],
+      ["Overcook", "Overcooked"],
+      ["Overcook 2", "Overcooked 2"],
+      ["Cantonese E.T.c.", "E.T.c."],
+      ["Yotsuba", "Yotsuba"],
+      ["Podcast with Momo", "Podcast (Intermediate, Every Saturday)"],
+      ["Hallo Baby", "Hello Baby"],
+      ["Is this Seat Taken", "Is this seat taken?"],
+      ["Let's see", "Let's see"],
+      ["Disco Elysium Re", "Disco Elysium Re"],
+      ["Pizza", "Good Pizza"]
+    ];
+    const LEVEL_PLAYLIST_TITLES = {
+      "Advanced Beginner": ["Beginner+"],
+      "Upper Intermediate": ["Intermediate+"]
+    };
 
-    function qrUrl(url) {
-      return "https://quickchart.io/qr?size=360&margin=1&text=" + encodeURIComponent(url);
-    }
-
-    const mount = document.getElementById("libraryMount");
-    mount.innerHTML = library.map(group => `
-      <section class="library-level">
-        <h3 class="level-title">${group.level}</h3>
-        <div class="library-grid">
-          ${group.items.map(([title, url, thumb]) => `
-            <article class="library-item">
-              <a href="${url}" aria-label="${title}">
-                <img class="thumb" src="${thumb}" alt="">
-              </a>
-              <a class="item-title" href="${url}">${title}</a>
-              <a href="${url}" aria-label="QR code for ${title}">
-                <img class="qr" src="${qrUrl(url)}" alt="">
-              </a>
-            </article>
-          `).join("")}
-        </div>
-      </section>
-    `).join("");
-
-    const linkTargets = new Map([
-      ["Storybooks", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRjSIEgjKstatSeg_JhAFl_"],
-      ["Storybook", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRjSIEgjKstatSeg_JhAFl_"],
-      ["What do you think of?", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRBLGp1Kc4R-ESRdDcSebQu"],
-      ["Bear", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQNSdCv-gFyurpu2COj12Ks"],
-      ["Finger Puppet Skit (Absolute Beginner)", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRk1YlUH3BFWxSLULSmK4Xb"],
-      ["Finger Puppet Skit", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRk1YlUH3BFWxSLULSmK4Xb"],
-      ["Daily Life Skit", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLR2zr221k2cJH9mSAPUn3Wo"],
-      ["Hallo Baby", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRA-1ITNoouLcgYs3h7WENn"],
-      ["What Who Where", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTdpm08caWiTcnRdpNyiiy1"],
-      ["Learn With Me", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLT0jBX4jfOFY-lKiOE0eH9s"],
-      ["Calvin & Hobbes", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRv8e8gADf7N-HIm54ps1fm"],
-      ["Is this seat taken?", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRz4cjpK04QOFM6WuNkWg95"],
-      ["Is this Seat Taken", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRz4cjpK04QOFM6WuNkWg95"],
-      ["Story Dice", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRjy4MVpu2iJrgoOZbJZPGe"],
-      ["Random Game", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSOXc8rIpg7U0rZn0tmHYdn"],
-      ["Toem", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQuixWgVXeT9pT2SqJqKuTR"],
-      ["Florence", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRCjsXjqzmpoHzSjcMx6Vl-"],
-      ["Garfield", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQbjX5WNb-rumUsJjx0nCF8"],
-      ["Father and Nun", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSmRZZGLtSEDQmkLbrG_lME"],
-      ["Story", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQH1Vh78-Yt9cKYiQYBjOZY"],
-      ["Let's see", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTYcFpQ7GV2ycIxDj1xUYQp"],
-      ["Sims", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSFzeBnz4qpxL3UuHmZtMeF"],
-      ["Sims 4", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSFzeBnz4qpxL3UuHmZtMeF"],
-      ["Firewatch", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSmok4kIQ45F-22MUEBa5rA"],
-      ["Good Pizza", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQB7JKAuo0o7SNFayVT9uD1"],
-      ["Pizza", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQB7JKAuo0o7SNFayVT9uD1"],
-      ["Little Nightmares", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSJSfJossZ9jODjlzk7bRhJ"],
-      ["Sort the Court", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQTIIJuHzQrQCOI0VGVvoRe"],
-      ["Roki", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLR7FTXM9sVoJW7rl_9DhYn_"],
-      ["Stardew Valley", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRjGVuAYm3IlslmbHenuvro"],
-      ["Teasing Master Takagi-san", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTvFslgD4LJvVjxyKqz2nRQ"],
-      ["Takagi-san", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTvFslgD4LJvVjxyKqz2nRQ"],
-      ["Good Job", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLRyX0OSJZqRnpvcKKYlJCpZ"],
-      ["Choko and Boko", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQWHtnAzLh0QDIAfepKa2im"],
-      ["Chibi Maruko Chan", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSUHbHgxeUtEfFPb4cMjE9n"],
-      ["Yotsuba", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLR46dYKOAE5ptPEcqrX9AUI"],
-      ["Penguin & Me", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLT0BWC3_cXzu1Ea3TAiYYuo"],
-      ["The Way of the Househusband", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSE-Tnf4RHymbpVJLren5JJ"],
-      ["Househusband", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSE-Tnf4RHymbpVJLren5JJ"],
-      ["Vlog", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSAXc6T65AnqZ_cJZLRy6Nd"],
-      ["Book Unboxing", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSKJAwgdPPwXzSYiLQBYS1C"],
-      ["Cantonese E.T.c.", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLT93yKhEQO6DH51_EAL12A_"],
-      ["The Untitled Goose Game", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQ59PO0So4g9IVYhhmswun3"],
-      ["Overcook 2", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQ6Lo72_2zZUMMlpYbD0QJI"],
-      ["Overcook", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQBQvSHm_eZtFBTCCIAT4JW"],
-      ["Podcast with Momo", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTJjPzUGrmsyg1koE7RvRwo"],
-      ["Akira", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLQNiLxV09ZElEscTzdDTW1i"],
-      ["Journey to the West", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTHLhPS7ZD_l5qjztmWft0o"],
-      ["Disco Elysium Re", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLSQO8DemDxrO7y1K-p7OWAj"],
-      ["Witch Hat Atelier", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLTyzvtWbj3W5GaVevPB1cNI"],
-      ["Work with Me", "https://www.youtube.com/playlist?list=PLI-XaJOyyTLS_-MdEqUXumh4RMARlLsnn"]
-    ]);
+    let catalogIndexes = {
+      catalog: null,
+      playlists: [],
+      playlistLookup: new Map(),
+      linkTargets: new Map()
+    };
 
     const generatedPaths = {
       absolute: {
@@ -1417,12 +1353,12 @@
         title: "Absolute Beginner Path",
         description: "Start with highly supported videos where repetition, visual context, and simple situations do most of the work.",
         stops: [
-          ["Bear", "Gentle story context with simple scenes and repeatable vocabulary.", "https://i.ytimg.com/vi/fnwcaQ8kMnQ/hqdefault.jpg"],
-          ["Daily Life Skit", "Everyday situations make the language concrete and easy to infer.", "https://i.ytimg.com/vi/lARqcOwYkhQ/hqdefault.jpg"],
-          ["What do you think of?", "A storybook-style stop with clear visual support.", "https://i.ytimg.com/vi/I0am4KKU7Jg/hqdefault.jpg"],
-          ["Hallo Baby", "Short, supported videos that keep the input light and friendly.", "https://i.ytimg.com/vi/WQuRDZKPPtE/hqdefault.jpg"],
-          ["What Who Where", "Practice following basic question words inside understandable scenes.", "https://i.ytimg.com/vi/yQ8j1go33TU/hqdefault.jpg"],
-          ["Finger Puppet Skit", "Simple recurring characters help new words come back naturally.", "https://i.ytimg.com/vi/xptnwX-wk1g/hqdefault.jpg"]
+          "Bear",
+          "Daily Life Skit",
+          "What do you think of?",
+          "Hello Baby",
+          "What Who Where",
+          "Finger Puppet Skit"
         ]
       },
       beginner: {
@@ -1430,16 +1366,16 @@
         title: "Beginner Path",
         description: "Move from approachable story setups into games, comics, and recurring series that still offer plenty of context.",
         stops: [
-          ["Father and Nun", "Beginner-friendly character scenes with a clear recurring setup.", "https://i.ytimg.com/vi/rqjVHYYa4CU/hqdefault.jpg"],
-          ["Story Dice", "A playful story format where the visuals help carry the meaning.", "https://i.ytimg.com/vi/GEj1yK5VjDA/hqdefault.jpg"],
-          ["Florence", "A gentle game narrative that gives you emotional and visual context.", "https://i.ytimg.com/vi/99wR2ccyGeU/hqdefault.jpg"],
-          ["Is this seat taken?", "Useful position and situation language inside approachable scenes.", "https://i.ytimg.com/vi/LRsimjDa21U/hqdefault.jpg"],
-          ["Random Game", "A flexible bridge into game-based listening practice.", "https://i.ytimg.com/vi/0dFMOEK00C8/hqdefault.jpg"],
-          ["Toem", "A cozy game route with lots of visible context for guessing meaning.", "https://i.ytimg.com/vi/VC7g-a3LZOo/hqdefault.jpg"],
-          ["Garfield", "Comic-strip humor with recurring characters and familiar situations.", "https://i.ytimg.com/vi/uy970tsWrvo/hqdefault.jpg"],
-          ["Calvin & Hobbes", "Short comic scenes that are good for building confidence.", "https://i.ytimg.com/vi/PvlkjuqjwGQ/hqdefault.jpg"],
-          ["Story", "A broad story stop for more beginner-friendly input.", "https://i.ytimg.com/vi/ySNOeWWoAnc/hqdefault.jpg"],
-          ["Let's see", "A final beginner stop before stretching into harder series.", "https://i.ytimg.com/vi/Y-_ek7FYSZ0/hqdefault.jpg"]
+          "Father and Nun",
+          "Story Dice",
+          "Florence",
+          "Is this seat taken?",
+          "Random Game",
+          "Toem",
+          "Garfield",
+          "Calvin & Hobbes",
+          "Story",
+          "Let's see"
         ]
       },
       advanced: {
@@ -1447,14 +1383,14 @@
         title: "Advanced Beginner Path",
         description: "Use familiar game and story formats to stretch into longer listening sessions without losing the thread.",
         stops: [
-          ["Good Pizza", "A game setting with concrete actions and repeated service language.", "https://i.ytimg.com/vi/UvO6jJXhpII/hqdefault.jpg"],
-          ["Sims", "Daily-life vocabulary inside a familiar simulation format.", "https://i.ytimg.com/vi/hVAXOvLKLUI/hqdefault.jpg"],
-          ["Little Nightmares", "A moodier game route that asks for stronger listening stamina.", "https://i.ytimg.com/vi/J_0pxyu8Wn4/hqdefault.jpg"],
-          ["Sort the Court", "Short decisions and repeated structures make it a useful bridge.", "https://i.ytimg.com/vi/h8WtTsrVB7E/hqdefault.jpg"],
-          ["Stardew Valley", "Cozy game routines with lots of visible context.", "https://i.ytimg.com/vi/uAXP-l0q_5A/hqdefault.jpg"],
-          ["Roki", "A story-driven stretch pick for advanced beginners.", "https://i.ytimg.com/vi/kyO6OsFkpNs/hqdefault.jpg"],
-          ["Firewatch", "Longer narrative scenes with stronger conversational demands.", "https://i.ytimg.com/vi/csAI0cWxPuI/hqdefault.jpg"],
-          ["Storybooks", "Return to story format with a broader listening base.", "https://i.ytimg.com/vi/I0am4KKU7Jg/hqdefault.jpg"]
+          "Good Pizza",
+          "The Sims 4",
+          "Little Nightmares",
+          "Sort the Court",
+          "Stardew Valley",
+          "Roki",
+          "Firewatch",
+          "Storybooks"
         ]
       },
       low: {
@@ -1462,8 +1398,8 @@
         title: "Low Intermediate Path",
         description: "A compact route for learners ready to test stronger listening stamina and more character-driven content.",
         stops: [
-          ["Teasing Master Takagi-san", "Character interaction gives you a clear next-step challenge.", "https://i.ytimg.com/vi/17KXs6mY7S4/hqdefault.jpg"],
-          ["Good Job", "A short route into less supported but still playful input.", "https://i.ytimg.com/vi/_Zv6oKtMyeU/hqdefault.jpg"]
+          "Teasing Master Takagi-san",
+          "Good Job"
         ]
       },
       intermediate: {
@@ -1471,18 +1407,18 @@
         title: "Intermediate Path",
         description: "Explore a wider mix of manga, vlogs, games, podcasts, and longer series once the channel feels broadly accessible.",
         stops: [
-          ["Penguin & Me", "A character-focused entry into intermediate listening.", "https://i.ytimg.com/vi/CxyLgrilpdI/hqdefault.jpg"],
-          ["Yotsuba", "Manga scenes with a stronger but still visual story rhythm.", "https://i.ytimg.com/vi/bZ646apPLNY/hqdefault.jpg"],
-          ["The Way of the Househusband", "A denser comic route for learners ready for more speed and detail.", "https://i.ytimg.com/vi/Gfnk4xCOk-s/hqdefault.jpg"],
-          ["Vlog", "Casual real-life speech and topics broaden your listening range.", "https://i.ytimg.com/vi/FBYy-wjTXW4/hqdefault.jpg"],
-          ["Book Unboxing", "A focused topic route with natural descriptive language.", "https://i.ytimg.com/vi/Cwymg0rSOn0/hqdefault.jpg"],
-          ["Chibi Maruko Chan", "A classic story series with richer dialogue and recurring characters.", "https://i.ytimg.com/vi/Eoj2zEBQOaM/hqdefault.jpg"],
-          ["Witch Hat Atelier", "A fantasy story stretch with more demanding vocabulary.", "https://i.ytimg.com/vi/zk-OpOShBDU/hqdefault.jpg"],
-          ["Cantonese E.T.c.", "A topical route for broader listening practice.", "https://i.ytimg.com/vi/vosHP6cCXyo/hqdefault.jpg"],
-          ["The Untitled Goose Game", "Game action and humor make the challenge more grounded.", "https://i.ytimg.com/vi/U137aEnWOoo/hqdefault.jpg"],
-          ["Overcook", "Fast cooperative game context with lots happening on screen.", "https://i.ytimg.com/vi/jMioeq157LY/hqdefault.jpg"],
-          ["Overcook 2", "A busier sequel route for stamina and fast reactions.", "https://i.ytimg.com/vi/SA15sLENfLI/hqdefault.jpg"],
-          ["Podcast with Momo", "A more audio-forward stop for stronger comprehension.", "https://i.ytimg.com/vi/5Y5em2t0SWQ/hqdefault.jpg"]
+          "Penguin & Me",
+          "Yotsuba",
+          "The Way of the Househusband",
+          "Vlog",
+          "Book Unboxing",
+          "Chibi Maruko Chan",
+          "Witch Hat Atelier",
+          "Cantonese E.T.c.",
+          "The Untitled Goose Game",
+          "Overcooked",
+          "Overcooked 2",
+          "Podcast with Momo"
         ]
       },
       upper: {
@@ -1490,15 +1426,207 @@
         title: "Upper Intermediate Path",
         description: "A smaller set of harder picks for learners who want denser stories and less hand-holding.",
         stops: [
-          ["Akira", "Dense story material for learners ready to work with less support.", "https://i.ytimg.com/vi/9kW4z9IQWqM/hqdefault.jpg"],
-          ["Journey to the West", "Classic story content with a bigger vocabulary load.", "https://i.ytimg.com/vi/sKOIBqIqUTs/hqdefault.jpg"],
-          ["Disco Elysium Re", "A demanding narrative game route for upper-intermediate stamina.", "https://i.ytimg.com/vi/a8t4vaCHFFQ/hqdefault.jpg"]
+          "Akira",
+          "Journey to the West",
+          "Disco Elysium Re"
         ]
       }
     };
 
+    const mount = document.getElementById("libraryMount");
+    const generatedLevel = document.getElementById("generatedLevel");
+    const generatedTitle = document.getElementById("generatedTitle");
+    const generatedDescription = document.getElementById("generatedDescription");
+    const generatedRoute = document.getElementById("generatedRoute");
+    const pathButtons = [...document.querySelectorAll(".path-option")];
+
+    function normalizeKey(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ");
+    }
+
+    function addLookup(lookup, key, playlist) {
+      const normalized = normalizeKey(key);
+      if (normalized && playlist && !lookup.has(normalized)) {
+        lookup.set(normalized, playlist);
+      }
+    }
+
+    function addLinkTarget(targets, key, url) {
+      if (key && url && !targets.has(key)) {
+        targets.set(key, url);
+      }
+    }
+
+    function findPlaylistForAlias(playlists, lookup, target) {
+      const normalized = normalizeKey(target);
+      return lookup.get(normalized) || playlists.find(playlist => {
+        const displayTitle = normalizeKey(playlist.display_title);
+        const title = normalizeKey(playlist.title);
+        return displayTitle.includes(normalized) || title.includes(normalized);
+      });
+    }
+
+    function buildCatalogIndexes(catalog) {
+      const playlists = Array.isArray(catalog.playlists) ? catalog.playlists : [];
+      const playlistLookup = new Map();
+      const linkTargets = new Map();
+
+      playlists.forEach(playlist => {
+        addLookup(playlistLookup, playlist.display_title, playlist);
+        addLookup(playlistLookup, playlist.title, playlist);
+        addLinkTarget(linkTargets, playlist.display_title, playlist.url);
+        addLinkTarget(linkTargets, playlist.title, playlist.url);
+      });
+
+      MANUAL_ALIASES.forEach(([alias, target]) => {
+        const playlist = findPlaylistForAlias(playlists, playlistLookup, target);
+        if (playlist) {
+          addLookup(playlistLookup, alias, playlist);
+          addLinkTarget(linkTargets, alias, playlist.url);
+        }
+      });
+
+      return { catalog, playlists, playlistLookup, linkTargets };
+    }
+
+    function getPlaylist(title) {
+      return catalogIndexes.playlistLookup.get(normalizeKey(title));
+    }
+
+    function formatVideoCount(count) {
+      if (!Number.isFinite(Number(count))) {
+        return "";
+      }
+      const value = Number(count);
+      return `${value.toLocaleString()} ${value === 1 ? "video" : "videos"}`;
+    }
+
+    function qrUrl(url) {
+      return "https://quickchart.io/qr?size=360&margin=1&text=" + encodeURIComponent(url);
+    }
+
+    function renderLinkedThumbnail(playlist, className, label) {
+      if (!playlist.thumbnail) {
+        return `<a href="${escapeHtml(playlist.url)}" aria-label="${escapeHtml(label)}"><span class="${className} thumb-placeholder"></span></a>`;
+      }
+      return `
+        <a href="${escapeHtml(playlist.url)}" aria-label="${escapeHtml(label)}">
+          <img class="${className}" src="${escapeHtml(playlist.thumbnail)}" alt="">
+        </a>
+      `;
+    }
+
+    function videoIdFromThumbnail(url) {
+      const match = String(url || "").match(/\/vi\/([^/]+)\//);
+      return match ? match[1] : "";
+    }
+
+    function reliableThumbnailUrl(playlist) {
+      const videoId = videoIdFromThumbnail(playlist && playlist.thumbnail);
+      return videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : playlist.thumbnail;
+    }
+
+    function isLevelPlaylist(playlist, level) {
+      const titles = [
+        level,
+        ...(LEVEL_PLAYLIST_TITLES[level] || [])
+      ].map(normalizeKey);
+      return titles.includes(normalizeKey(playlist.display_title)) || titles.includes(normalizeKey(playlist.title));
+    }
+
+    function levelTitleMarkup(group) {
+      const playlist = group.items.find(item => isLevelPlaylist(item, group.level));
+      if (!playlist || !playlist.url) {
+        return escapeHtml(group.level);
+      }
+      return `<a href="${escapeHtml(playlist.url)}">${escapeHtml(group.level)}</a>`;
+    }
+
+    function renderLibrary() {
+      const groups = LEVEL_ORDER.map(level => ({
+        level,
+        items: catalogIndexes.playlists.filter(playlist => playlist.level === level)
+      })).filter(group => group.items.length);
+
+      if (!groups.length) {
+        mount.innerHTML = `<div class="catalog-state">No playlists were found in the generated catalog.</div>`;
+        return;
+      }
+
+      mount.innerHTML = groups.map(group => `
+        <section class="library-level">
+          <h3 class="level-title">${levelTitleMarkup(group)}</h3>
+          <div class="library-grid">
+            ${group.items.filter(playlist => !isLevelPlaylist(playlist, group.level)).map(playlist => {
+              const title = playlist.display_title || playlist.title || "Untitled playlist";
+              const videoCount = formatVideoCount(playlist.video_count);
+              return `
+                <article class="library-item">
+                  ${renderLinkedThumbnail(playlist, "thumb", title)}
+                  <div class="item-copy">
+                    <a class="item-title" href="${escapeHtml(playlist.url)}">${escapeHtml(title)}</a>
+                    ${videoCount ? `<div class="item-meta">${escapeHtml(videoCount)}</div>` : ""}
+                  </div>
+                  <a href="${escapeHtml(playlist.url)}" aria-label="QR code for ${escapeHtml(title)}">
+                    <img class="qr" src="${escapeHtml(qrUrl(playlist.url))}" alt="">
+                  </a>
+                </article>
+              `;
+            }).join("")}
+          </div>
+        </section>
+      `).join("");
+    }
+
+    function updatePathCounts() {
+      pathButtons.forEach(button => {
+        const path = generatedPaths[button.dataset.path];
+        const counter = button.querySelector(".stop-count");
+        if (!path || !counter) {
+          return;
+        }
+        const resolved = path.stops.filter(title => getPlaylist(title)).length;
+        counter.textContent = resolved === path.stops.length ? String(path.stops.length) : `${resolved}/${path.stops.length}`;
+      });
+    }
+
+    async function loadCatalog() {
+      const response = await fetch(CATALOG_URL, { cache: "no-cache" });
+      if (!response.ok) {
+        throw new Error(`Catalog request failed with ${response.status}`);
+      }
+      return response.json();
+    }
+
+    function showCatalogError(error) {
+      console.error("Could not load Manki YouTube catalog", error);
+      const message = "Could not load the generated YouTube catalog. Start a local server or check generated/manki-catalog.json.";
+      mount.innerHTML = `<div class="catalog-state">${escapeHtml(message)}</div>`;
+      generatedRoute.innerHTML = `<div class="catalog-state">${escapeHtml(message)}</div>`;
+    }
+
+    async function initializeCatalogContent() {
+      try {
+        const catalog = await loadCatalog();
+        catalogIndexes = buildCatalogIndexes(catalog);
+        renderLibrary();
+        updatePathCounts();
+        renderGeneratedPath("absolute");
+        document.querySelectorAll(".path").forEach(element => {
+          element.innerHTML = linkifyText(element.textContent);
+        });
+      } catch (error) {
+        showCatalogError(error);
+      }
+    }
+
     function escapeHtml(value) {
-      return value.replace(/[&<>"']/g, character => ({
+      return String(value == null ? "" : value).replace(/[&<>"']/g, character => ({
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
@@ -1508,7 +1636,8 @@
     }
 
     function linkifyText(text) {
-      const names = [...linkTargets.keys()].sort((a, b) => b.length - a.length);
+      const targets = catalogIndexes.linkTargets;
+      const names = [...targets.keys()].sort((a, b) => b.length - a.length);
 
       function hasBoundaryAt(index) {
         return index < 0 || index >= text.length || !/[\w&;]/.test(text[index]);
@@ -1524,7 +1653,7 @@
         );
 
         if (match) {
-          html += `<a href="${escapeHtml(linkTargets.get(match))}">${escapeHtml(match)}</a>`;
+          html += `<a href="${escapeHtml(targets.get(match))}">${escapeHtml(match)}</a>`;
           index += match.length;
         } else {
           html += escapeHtml(text[index]);
@@ -1535,30 +1664,46 @@
       return html;
     }
 
-    const generatedLevel = document.getElementById("generatedLevel");
-    const generatedTitle = document.getElementById("generatedTitle");
-    const generatedDescription = document.getElementById("generatedDescription");
-    const generatedRoute = document.getElementById("generatedRoute");
-
     function renderGeneratedPath(key) {
       const path = generatedPaths[key];
       generatedLevel.textContent = path.label;
       generatedTitle.textContent = path.title;
       generatedDescription.textContent = path.description;
-      generatedRoute.innerHTML = path.stops.map(([title, description, thumbnail], index) => {
-        const url = linkTargets.get(title) || "#";
+      generatedRoute.innerHTML = path.stops.map((title, index) => {
+        const playlist = getPlaylist(title);
+        const isAvailable = Boolean(playlist && playlist.url);
+        const url = playlist && playlist.url ? playlist.url : "";
+        const thumbnailUrl = isAvailable ? reliableThumbnailUrl(playlist) : "";
+        const description = isAvailable && playlist.description
+          ? playlist.description
+          : "No playlist description available in the catalog.";
+        const meta = isAvailable
+          ? formatVideoCount(playlist.video_count)
+          : "Playlist not found in catalog";
+        const thumbnail = thumbnailUrl
+          ? `<a class="stop-thumb" href="${escapeHtml(url)}"><img src="${escapeHtml(thumbnailUrl)}" alt="" referrerpolicy="no-referrer"></a>`
+          : `<span class="stop-thumb thumb-placeholder"></span>`;
+        const titleMarkup = isAvailable
+          ? `<a class="stop-link" href="${escapeHtml(url)}">${escapeHtml(title)}</a>`
+          : `<span>${escapeHtml(title)}</span>`;
+        const openMarkup = isAvailable
+          ? `<a class="stop-open" href="${escapeHtml(url)}" aria-label="Open ${escapeHtml(title)} playlist">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M10 7h7v7"/></svg>
+              </a>`
+          : `<span class="stop-open" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M10 7h7v7"/></svg>
+              </span>`;
         return `
-          <div class="generated-stop">
+          <div class="generated-stop${isAvailable ? "" : " unavailable"}">
             <span class="stop-node">${index + 1}</span>
             <div class="stop-card">
-              <a class="stop-thumb" href="${escapeHtml(url)}"><img src="${escapeHtml(thumbnail)}" alt=""></a>
+              ${thumbnail}
               <div>
-                <h4><a class="stop-link" href="${escapeHtml(url)}">${escapeHtml(title)}</a></h4>
+                <div class="stop-meta">${escapeHtml(meta)}</div>
+                <h4>${titleMarkup}</h4>
                 <p>${escapeHtml(description)}</p>
               </div>
-              <a class="stop-open" href="${escapeHtml(url)}" aria-label="Open ${escapeHtml(title)} playlist">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M10 7h7v7"/></svg>
-              </a>
+              ${openMarkup}
             </div>
           </div>
         `;
@@ -1566,19 +1711,15 @@
       generatedRoute.scrollTop = 0;
     }
 
-    document.querySelectorAll(".path-option").forEach(button => {
+    pathButtons.forEach(button => {
       button.addEventListener("click", () => {
-        document.querySelectorAll(".path-option").forEach(option => option.classList.remove("active"));
+        pathButtons.forEach(option => option.classList.remove("active"));
         button.classList.add("active");
         renderGeneratedPath(button.dataset.path);
       });
     });
 
-    renderGeneratedPath("absolute");
-
-    document.querySelectorAll(".path").forEach(element => {
-      element.innerHTML = linkifyText(element.textContent);
-    });
+    initializeCatalogContent();
 
     const selector = document.getElementById("themeSelect");
     const modeToggle = document.getElementById("modeToggle");
