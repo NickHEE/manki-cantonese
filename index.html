@@ -460,8 +460,7 @@
 
     .note,
     .path-card,
-    .testimonial,
-    .library-item {
+    .testimonial {
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--panel);
@@ -913,8 +912,7 @@
       font-size: 13px;
     }
 
-    .stop-meta,
-    .item-meta {
+    .stop-meta {
       color: var(--muted);
       font-size: 11px;
       font-weight: 800;
@@ -978,88 +976,352 @@
       fill: none;
     }
 
-    .library-level {
-      margin-top: 28px;
+    .library-browser {
+      display: grid;
+      grid-template-columns: 285px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
     }
 
-    .level-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    #library {
+      width: min(1220px, calc(100vw - 44px));
+      margin-left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .library-sidebar,
+    .library-results {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 10px 28px var(--shadow);
+    }
+
+    .library-sidebar {
+      position: sticky;
+      top: 86px;
+      padding: 16px;
+    }
+
+    .library-sidebar h3 {
       margin: 0 0 12px;
       color: var(--ink);
-      font-size: 22px;
+      font-size: 18px;
+      line-height: 1.15;
     }
 
-    .level-title a {
-      color: inherit;
-      text-decoration-thickness: 0.08em;
-      text-underline-offset: 0.18em;
+    .library-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 6px;
     }
 
-    .level-title a:hover,
-    .level-title a:focus-visible {
-      color: var(--link);
+    .library-stat {
+      display: grid;
+      place-items: center;
+      align-content: center;
+      min-height: 70px;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: color-mix(in srgb, var(--section) 34%, var(--panel));
+      padding: 8px;
+      text-align: center;
     }
 
-    .level-title::before {
+    .library-stat strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--ink);
+      font-size: 21px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .library-stat span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .library-filter-group + .library-filter-group {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .library-filter-label {
+      margin: 0 0 9px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .library-filter-list {
+      display: grid;
+      gap: 7px;
+    }
+
+    .library-filter {
+      display: grid;
+      grid-template-columns: 18px minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      width: 100%;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 8px 11px;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .library-filter::before {
       content: "";
       width: 12px;
-      height: 28px;
-      border-radius: 999px;
+      height: 12px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--muted) 72%, white);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--muted) 12%, transparent);
+    }
+
+    [data-mode="dark"] .library-filter::before {
+      background: color-mix(in srgb, var(--muted) 48%, var(--paper));
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--muted) 13%, transparent);
+    }
+
+    .library-filter.active {
+      border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+      background:
+        linear-gradient(145deg, color-mix(in srgb, var(--accent) 12%, white), var(--panel) 72%);
+      color: color-mix(in srgb, var(--accent) 78%, black);
+    }
+
+    [data-mode="dark"] .library-filter.active {
+      border-color: color-mix(in srgb, var(--accent) 58%, var(--line));
+      background:
+        linear-gradient(145deg, color-mix(in srgb, var(--accent) 20%, var(--paper)), color-mix(in srgb, var(--section) 36%, var(--panel)) 68%);
+      color: color-mix(in srgb, var(--accent) 82%, white);
+    }
+
+    .library-filter.active::before {
       background: var(--accent);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
     }
 
-    .library-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 370px));
-      gap: 12px;
+    .library-filter[data-level="All"],
+    .library-filter[data-length="All"] {
+      grid-template-columns: minmax(0, 1fr) auto;
     }
 
-    .library-item {
-      display: grid;
-      grid-template-columns: 132px minmax(0, 1fr) 92px;
-      align-items: center;
-      gap: 12px;
-      min-height: 104px;
-      overflow: hidden;
-      padding: 8px;
+    .library-filter[data-level="All"]::before,
+    .library-filter[data-length="All"]::before {
+      display: none;
     }
 
-    .item-copy {
-      display: grid;
-      gap: 5px;
+    .library-filter span {
       min-width: 0;
     }
 
-    .thumb {
+    .library-filter span:last-child {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .library-results {
+      overflow: hidden;
+    }
+
+    .library-results-top {
+      display: grid;
+      gap: 14px;
+      border-bottom: 1px solid var(--line);
+      padding: 16px;
+    }
+
+    .library-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .library-search {
+      position: relative;
+      min-width: min(100%, 320px);
+      flex: 1 1 320px;
+    }
+
+    .library-search svg {
+      position: absolute;
+      top: 50%;
+      left: 12px;
+      width: 18px;
+      height: 18px;
+      transform: translateY(-50%);
+      stroke: var(--muted);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      pointer-events: none;
+    }
+
+    .library-search input,
+    .library-sort {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--ink);
+      font: inherit;
+    }
+
+    .library-search input {
+      width: 100%;
+      padding: 9px 12px 9px 40px;
+    }
+
+    .library-sort {
+      padding: 8px 10px;
+      font-weight: 700;
+    }
+
+    .library-summary-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .library-result-count {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .library-clear {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .library-results-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+      max-height: 720px;
+      overflow: auto;
+      padding: 16px;
+      scrollbar-color: color-mix(in srgb, var(--accent) 55%, white) transparent;
+    }
+
+    .library-card {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      grid-template-columns: 1fr;
+      gap: 13px;
+      height: 344px;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 10px;
+      box-shadow: 0 8px 20px color-mix(in srgb, var(--shadow) 75%, transparent);
+    }
+
+    .library-thumb {
       display: block;
-      width: 124px;
-      height: 70px;
-      object-fit: cover;
+      width: 100%;
+      min-height: 142px;
+      aspect-ratio: 16 / 9;
       border-radius: 6px;
+      object-fit: cover;
       background: var(--section);
     }
 
-    .thumb-placeholder {
+    .library-thumb-placeholder {
       display: block;
       border: 1px dashed var(--line);
     }
 
-    .item-title {
-      color: var(--ink);
-      font-size: 15px;
-      line-height: 1.25;
-      text-align: left;
+    .library-card-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+      overflow: hidden;
     }
 
-    .qr {
-      display: block;
-      width: 76px;
-      height: 76px;
-      margin: 0 auto;
-      border-radius: 4px;
-      background: white;
+    .library-card-title {
+      display: -webkit-box;
+      overflow: hidden;
+      color: var(--ink);
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.18;
+      text-decoration: none;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .library-card-title:hover,
+    .library-card-title:focus-visible {
+      color: var(--link);
+      text-decoration: underline;
+    }
+
+    .library-card-description {
+      display: -webkit-box;
+      max-height: 54px;
+      margin: 0;
+      overflow: hidden;
+      color: var(--body);
+      font-size: 13px;
+      line-height: 1.35;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+    }
+
+    .library-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      flex-shrink: 0;
+      margin-top: auto;
+    }
+
+    .library-tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--section) 32%, transparent);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1;
+      padding: 5px 8px;
+      text-transform: uppercase;
     }
 
     .source {
@@ -1146,8 +1408,17 @@
       .testimonials,
       .short-notes,
       .path-grid,
-      .path-builder {
+      .path-builder,
+      .library-browser {
         grid-template-columns: 1fr;
+      }
+
+      .library-sidebar {
+        position: static;
+      }
+
+      .library-results-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .steps {
@@ -1164,11 +1435,6 @@
         font-size: 42px;
       }
 
-      .library-item {
-        grid-template-columns: 1fr;
-        padding: 14px;
-      }
-
       .note {
         grid-template-columns: 1fr;
       }
@@ -1181,9 +1447,13 @@
         justify-self: start;
       }
 
-      .thumb,
-      .qr {
-        margin: 0 auto;
+      .library-results-list {
+        grid-template-columns: 1fr;
+      }
+
+      .library-card {
+        height: auto;
+        min-height: 344px;
       }
     }
 
@@ -1361,6 +1631,105 @@
       </div>
     </section>
 
+    <section class="section-block" id="starter-paths">
+      <div class="section-heading">
+        <h2>Suggested Paths</h2>
+        <p>These are not rules. They are routes learners have described, organized into a gentler sequence for new viewers.</p>
+      </div>
+      <div class="path-builder">
+        <aside class="path-selector" aria-label="Choose a suggested path">
+          <div class="selector-title">Choose a starting level</div>
+          <button class="path-option active" type="button" data-path="absolute">
+            <span><strong>Absolute Beginner</strong><span>Gentle story and skit entry point</span></span>
+            <span class="stop-count">6</span>
+          </button>
+          <button class="path-option" type="button" data-path="beginner">
+            <span><strong>Beginner</strong><span>Early range across stories and games</span></span>
+            <span class="stop-count">10</span>
+          </button>
+          <button class="path-option" type="button" data-path="advanced">
+            <span><strong>Advanced Beginner</strong><span>Bridge into longer series</span></span>
+            <span class="stop-count">8</span>
+          </button>
+          <button class="path-option" type="button" data-path="low">
+            <span><strong>Low Intermediate</strong><span>A short next-step route</span></span>
+            <span class="stop-count">2</span>
+          </button>
+          <button class="path-option" type="button" data-path="intermediate">
+            <span><strong>Intermediate</strong><span>Broad library exploration</span></span>
+            <span class="stop-count">12</span>
+          </button>
+          <button class="path-option" type="button" data-path="upper">
+            <span><strong>Upper Intermediate</strong><span>Challenge route</span></span>
+            <span class="stop-count">3</span>
+          </button>
+        </aside>
+
+        <article class="generated-path" id="generatedPath">
+          <div class="generated-header">
+            <div>
+              <div class="generated-level" id="generatedLevel">Gentle Start</div>
+              <h3 id="generatedTitle">Absolute Beginner Path</h3>
+              <p id="generatedDescription">Start with highly supported videos where repetition, visual context, and simple situations do most of the work.</p>
+            </div>
+          </div>
+          <div class="generated-route-wrap">
+            <div class="generated-route" id="generatedRoute"></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-block" id="library">
+      <div class="section-heading">
+        <h2>Full Content Library</h2>
+        <p>Search, filter, and sort the complete channel catalog. Click a title or thumbnail to open the playlist.</p>
+      </div>
+      <div class="library-browser">
+        <aside class="library-sidebar" aria-label="Browse content library">
+          <h3>Browse Filters</h3>
+          <div class="library-stats" id="libraryStats"></div>
+
+          <div class="library-filter-group">
+            <p class="library-filter-label">Difficulty</p>
+            <div class="library-filter-list" id="libraryLevelFilters"></div>
+          </div>
+
+          <div class="library-filter-group">
+            <p class="library-filter-label">Playlist Length</p>
+            <div class="library-filter-list" id="libraryLengthFilters">
+              <button class="library-filter active" type="button" data-length="All"><span>Any length</span><span>All</span></button>
+              <button class="library-filter" type="button" data-length="Short"><span>Short</span><span>1-10</span></button>
+              <button class="library-filter" type="button" data-length="Medium"><span>Medium</span><span>11-35</span></button>
+              <button class="library-filter" type="button" data-length="Long"><span>Long</span><span>36+</span></button>
+            </div>
+          </div>
+        </aside>
+
+        <section class="library-results">
+          <div class="library-results-top">
+            <div class="library-toolbar">
+              <label class="library-search">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg>
+                <input id="librarySearch" type="search" placeholder="Search title, description, or level">
+              </label>
+              <select class="library-sort" id="librarySort" aria-label="Sort playlists">
+                <option value="title">Title A-Z</option>
+                <option value="level">Difficulty order</option>
+                <option value="count-desc">Most videos</option>
+                <option value="count-asc">Fewest videos</option>
+              </select>
+            </div>
+            <div class="library-summary-bar">
+              <span class="library-result-count" id="libraryResultCount"></span>
+              <button class="library-clear" type="button" id="clearLibraryFilters">Clear Filters</button>
+            </div>
+          </div>
+          <div class="library-results-list" id="libraryMount"></div>
+        </section>
+      </div>
+    </section>
+
     <section class="section-block" id="community">
       <div class="section-heading">
         <h2>Learning Paths From The Community</h2>
@@ -1435,63 +1804,6 @@
       </div>
     </section>
 
-    <section class="section-block" id="starter-paths">
-      <div class="section-heading">
-        <h2>Suggested Paths</h2>
-        <p>These are not rules. They are routes learners have described, organized into a gentler sequence for new viewers.</p>
-      </div>
-      <div class="path-builder">
-        <aside class="path-selector" aria-label="Choose a suggested path">
-          <div class="selector-title">Choose a starting level</div>
-          <button class="path-option active" type="button" data-path="absolute">
-            <span><strong>Absolute Beginner</strong><span>Gentle story and skit entry point</span></span>
-            <span class="stop-count">6</span>
-          </button>
-          <button class="path-option" type="button" data-path="beginner">
-            <span><strong>Beginner</strong><span>Early range across stories and games</span></span>
-            <span class="stop-count">10</span>
-          </button>
-          <button class="path-option" type="button" data-path="advanced">
-            <span><strong>Advanced Beginner</strong><span>Bridge into longer series</span></span>
-            <span class="stop-count">8</span>
-          </button>
-          <button class="path-option" type="button" data-path="low">
-            <span><strong>Low Intermediate</strong><span>A short next-step route</span></span>
-            <span class="stop-count">2</span>
-          </button>
-          <button class="path-option" type="button" data-path="intermediate">
-            <span><strong>Intermediate</strong><span>Broad library exploration</span></span>
-            <span class="stop-count">12</span>
-          </button>
-          <button class="path-option" type="button" data-path="upper">
-            <span><strong>Upper Intermediate</strong><span>Challenge route</span></span>
-            <span class="stop-count">3</span>
-          </button>
-        </aside>
-
-        <article class="generated-path" id="generatedPath">
-          <div class="generated-header">
-            <div>
-              <div class="generated-level" id="generatedLevel">Gentle Start</div>
-              <h3 id="generatedTitle">Absolute Beginner Path</h3>
-              <p id="generatedDescription">Start with highly supported videos where repetition, visual context, and simple situations do most of the work.</p>
-            </div>
-          </div>
-          <div class="generated-route-wrap">
-            <div class="generated-route" id="generatedRoute"></div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section-block" id="library">
-      <div class="section-heading">
-        <h2>Referenced Content Library</h2>
-        <p>Click a title or scan a QR code to open a playlist from the generated channel catalog.</p>
-      </div>
-      <div id="libraryMount"></div>
-    </section>
-
     <div class="closing-formula">
       <div class="closing-formula-inner">
         <div class="closing-line">
@@ -1550,8 +1862,17 @@
     let catalogIndexes = {
       catalog: null,
       playlists: [],
+      libraryItems: [],
+      levelPlaylists: [],
       playlistLookup: new Map(),
       linkTargets: new Map()
+    };
+
+    const libraryState = {
+      levels: new Set(),
+      lengths: new Set(),
+      query: "",
+      sort: "title"
     };
 
     const generatedPaths = {
@@ -1641,6 +1962,13 @@
     };
 
     const mount = document.getElementById("libraryMount");
+    const libraryStats = document.getElementById("libraryStats");
+    const libraryLevelFilters = document.getElementById("libraryLevelFilters");
+    const libraryLengthFilters = document.getElementById("libraryLengthFilters");
+    const librarySearch = document.getElementById("librarySearch");
+    const librarySort = document.getElementById("librarySort");
+    const libraryResultCount = document.getElementById("libraryResultCount");
+    const clearLibraryFilters = document.getElementById("clearLibraryFilters");
     const generatedLevel = document.getElementById("generatedLevel");
     const generatedTitle = document.getElementById("generatedTitle");
     const generatedDescription = document.getElementById("generatedDescription");
@@ -1680,6 +2008,8 @@
 
     function buildCatalogIndexes(catalog) {
       const playlists = Array.isArray(catalog.playlists) ? catalog.playlists : [];
+      const levelPlaylists = playlists.filter(playlist => isLevelPlaylist(playlist, playlist.level));
+      const libraryItems = playlists.filter(playlist => !isLevelPlaylist(playlist, playlist.level));
       const playlistLookup = new Map();
       const linkTargets = new Map();
 
@@ -1698,7 +2028,7 @@
         }
       });
 
-      return { catalog, playlists, playlistLookup, linkTargets };
+      return { catalog, playlists, libraryItems, levelPlaylists, playlistLookup, linkTargets };
     }
 
     function getPlaylist(title) {
@@ -1746,48 +2076,146 @@
       return titles.includes(normalizeKey(playlist.display_title)) || titles.includes(normalizeKey(playlist.title));
     }
 
-    function levelTitleMarkup(group) {
-      const playlist = group.items.find(item => isLevelPlaylist(item, group.level));
-      if (!playlist || !playlist.url) {
-        return escapeHtml(group.level);
-      }
-      return `<a href="${escapeHtml(playlist.url)}">${escapeHtml(group.level)}</a>`;
+    function itemTitle(item) {
+      return item.display_title || item.title || "Untitled playlist";
+    }
+
+    function hasActiveLibraryLevelFilters() {
+      return libraryState.levels.size > 0;
+    }
+
+    function hasActiveLibraryLengthFilters() {
+      return libraryState.lengths.size > 0;
+    }
+
+    function levelVideoTotal(levels = LEVEL_ORDER) {
+      const selectedLevels = new Set(levels);
+      return catalogIndexes.levelPlaylists
+        .filter(playlist => selectedLevels.has(playlist.level))
+        .reduce((sum, playlist) => sum + Number(playlist.video_count || 0), 0);
+    }
+
+    function getLibraryLevelCounts(items = catalogIndexes.libraryItems) {
+      return LEVEL_ORDER.map(level => ({
+        level,
+        count: items.filter(item => item.level === level).length
+      })).filter(level => level.count);
+    }
+
+    function filterLibraryItems(items, state) {
+      const query = normalizeKey(state.query || "");
+      const selectedLevels = [...state.levels];
+      const selectedLengths = [...state.lengths];
+      return items.filter(item => {
+        const levelMatches = !selectedLevels.length || selectedLevels.includes(item.level);
+        const count = Number(item.video_count || 0);
+        const lengthMatches = !selectedLengths.length || selectedLengths.some(length =>
+          (length === "Short" && count > 0 && count <= 10) ||
+          (length === "Medium" && count > 10 && count <= 35) ||
+          (length === "Long" && count > 35)
+        );
+        const text = normalizeKey(`${itemTitle(item)} ${item.description || ""} ${item.level || ""}`);
+        return levelMatches && lengthMatches && (!query || text.includes(query));
+      }).sort((a, b) => {
+        if (state.sort === "count-desc") {
+          return Number(b.video_count || 0) - Number(a.video_count || 0);
+        }
+        if (state.sort === "count-asc") {
+          return Number(a.video_count || 0) - Number(b.video_count || 0);
+        }
+        if (state.sort === "level") {
+          return LEVEL_ORDER.indexOf(a.level) - LEVEL_ORDER.indexOf(b.level) || itemTitle(a).localeCompare(itemTitle(b));
+        }
+        return itemTitle(a).localeCompare(itemTitle(b));
+      });
+    }
+
+    function renderLibraryStats(items) {
+      const activeLevels = hasActiveLibraryLevelFilters()
+        ? [...libraryState.levels]
+        : LEVEL_ORDER.filter(level => catalogIndexes.libraryItems.some(item => item.level === level));
+      const usesResultSpecificFilters = Boolean(libraryState.query.trim()) || hasActiveLibraryLengthFilters();
+      const videoTotal = usesResultSpecificFilters
+        ? items.reduce((sum, item) => sum + Number(item.video_count || 0), 0)
+        : levelVideoTotal(activeLevels);
+      const levelCount = new Set(items.map(item => item.level)).size;
+      libraryStats.innerHTML = `
+        <div class="library-stat"><strong>${items.length}</strong><span>playlists</span></div>
+        <div class="library-stat"><strong>${videoTotal.toLocaleString()}</strong><span>videos</span></div>
+        <div class="library-stat"><strong>${levelCount}</strong><span>levels</span></div>
+      `;
+    }
+
+    function renderLibraryLevelFilters() {
+      const levels = getLibraryLevelCounts();
+      libraryLevelFilters.innerHTML = `
+        <button class="library-filter${hasActiveLibraryLevelFilters() ? "" : " active"}" type="button" data-level="All">
+          <span>All levels</span><span>${catalogIndexes.libraryItems.length}</span>
+        </button>
+        ${levels.map(level => `
+          <button class="library-filter${libraryState.levels.has(level.level) ? " active" : ""}" type="button" data-level="${escapeHtml(level.level)}" aria-pressed="${libraryState.levels.has(level.level) ? "true" : "false"}">
+            <span>${escapeHtml(level.level)}</span><span>${level.count}</span>
+          </button>
+        `).join("")}
+      `;
+      libraryLevelFilters.querySelectorAll("[data-level]").forEach(button => {
+        button.addEventListener("click", () => {
+          if (button.dataset.level === "All") {
+            libraryState.levels.clear();
+          } else if (libraryState.levels.has(button.dataset.level)) {
+            libraryState.levels.delete(button.dataset.level);
+          } else {
+            libraryState.levels.add(button.dataset.level);
+          }
+          renderLibrary();
+        });
+      });
+    }
+
+    function renderLibraryCard(item) {
+      const title = itemTitle(item);
+      const description = item.description || "";
+      const thumbnailUrl = reliableThumbnailUrl(item);
+      const thumbnail = thumbnailUrl
+        ? `<a href="${escapeHtml(item.url)}" aria-label="${escapeHtml(title)}"><img class="library-thumb" src="${escapeHtml(thumbnailUrl)}" alt="" referrerpolicy="no-referrer"></a>`
+        : `<a href="${escapeHtml(item.url)}" aria-label="${escapeHtml(title)}"><span class="library-thumb library-thumb-placeholder"></span></a>`;
+      const videoCount = formatVideoCount(item.video_count);
+      return `
+        <article class="library-card">
+          ${thumbnail}
+          <div class="library-card-copy">
+            <a class="library-card-title" href="${escapeHtml(item.url)}">${escapeHtml(title)}</a>
+            ${description ? `<p class="library-card-description">${escapeHtml(description)}</p>` : ""}
+            <div class="library-card-tags">
+              <span class="library-tag">${escapeHtml(item.level || "Misc")}</span>
+              ${videoCount ? `<span class="library-tag">${escapeHtml(videoCount)}</span>` : ""}
+            </div>
+          </div>
+        </article>
+      `;
     }
 
     function renderLibrary() {
-      const groups = LEVEL_ORDER.map(level => ({
-        level,
-        items: catalogIndexes.playlists.filter(playlist => playlist.level === level)
-      })).filter(group => group.items.length);
+      const items = filterLibraryItems(catalogIndexes.libraryItems, libraryState);
 
-      if (!groups.length) {
+      if (!catalogIndexes.libraryItems.length) {
         mount.innerHTML = `<div class="catalog-state">No playlists were found in the generated catalog.</div>`;
         return;
       }
 
-      mount.innerHTML = groups.map(group => `
-        <section class="library-level">
-          <h3 class="level-title">${levelTitleMarkup(group)}</h3>
-          <div class="library-grid">
-            ${group.items.filter(playlist => !isLevelPlaylist(playlist, group.level)).map(playlist => {
-              const title = playlist.display_title || playlist.title || "Untitled playlist";
-              const videoCount = formatVideoCount(playlist.video_count);
-              return `
-                <article class="library-item">
-                  ${renderLinkedThumbnail(playlist, "thumb", title)}
-                  <div class="item-copy">
-                    <a class="item-title" href="${escapeHtml(playlist.url)}">${escapeHtml(title)}</a>
-                    ${videoCount ? `<div class="item-meta">${escapeHtml(videoCount)}</div>` : ""}
-                  </div>
-                  <a href="${escapeHtml(playlist.url)}" aria-label="QR code for ${escapeHtml(title)}">
-                    <img class="qr" src="${escapeHtml(qrUrl(playlist.url))}" alt="">
-                  </a>
-                </article>
-              `;
-            }).join("")}
-          </div>
-        </section>
-      `).join("");
+      renderLibraryStats(items);
+      renderLibraryLevelFilters();
+      libraryLengthFilters.querySelectorAll("[data-length]").forEach(button => {
+        const isActive = button.dataset.length === "All"
+          ? !hasActiveLibraryLengthFilters()
+          : libraryState.lengths.has(button.dataset.length);
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+      libraryResultCount.textContent = `${items.length} matching playlists`;
+      mount.innerHTML = items.length
+        ? items.map(item => renderLibraryCard(item)).join("")
+        : `<div class="catalog-state">No playlists match these filters.</div>`;
     }
 
     function updatePathCounts() {
@@ -1924,6 +2352,41 @@
         button.classList.add("active");
         renderGeneratedPath(button.dataset.path);
       });
+    });
+
+    libraryLengthFilters.addEventListener("click", event => {
+      const button = event.target.closest("[data-length]");
+      if (!button) {
+        return;
+      }
+      if (button.dataset.length === "All") {
+        libraryState.lengths.clear();
+      } else if (libraryState.lengths.has(button.dataset.length)) {
+        libraryState.lengths.delete(button.dataset.length);
+      } else {
+        libraryState.lengths.add(button.dataset.length);
+      }
+      renderLibrary();
+    });
+
+    librarySearch.addEventListener("input", event => {
+      libraryState.query = event.target.value;
+      renderLibrary();
+    });
+
+    librarySort.addEventListener("change", event => {
+      libraryState.sort = event.target.value;
+      renderLibrary();
+    });
+
+    clearLibraryFilters.addEventListener("click", () => {
+      libraryState.levels.clear();
+      libraryState.lengths.clear();
+      libraryState.query = "";
+      libraryState.sort = "title";
+      librarySearch.value = "";
+      librarySort.value = "title";
+      renderLibrary();
     });
 
     initializeCatalogContent();
